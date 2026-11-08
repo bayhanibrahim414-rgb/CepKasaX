@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<!-- Yakınlaştırmayı önleyen katı viewport ayarı -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<title>CepkasaX</title>
+
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<style>
+/* GENEL APP HİSSİYATI AYARLARI */
+* { 
+    box-sizing: border-box; 
+    -webkit-tap-highlight-color: transparent; 
+    /* Metin Seçimini Engelleme */
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Input ve Textarea'larda yazı seçimine/yazmaya İZİN VER */
+input, textarea {
+    -webkit-user-select: auto !important;
+    -ms-user-select: auto !important;
+    user-select: auto !important;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: #f1f5f9;
+    color: #0f172a;
+    /* Çift tıklama ile yakınlaştırmayı kökten çözer */
+    touch-action: manipulation; 
+}
+
+/* --- GİRİŞ EKRANI (DARK GLASSMORPHISM) --- */
+#loginPage {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 9999; padding: 20px;
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 30px 25px; border-radius: 24px;
+    width: 100%; max-width: 400px;
+    text-align: center; color: white;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    display: none;
+}
+.glass-panel.active { display: block; }
+
+/* Marka ve Başlıklar */
+.brand-title {
+    font-size: 28px; font-weight: 900; color: #22c55e;
+    margin-top: 0; margin-bottom: 5px; letter-spacing: 1px;
+}
+.brand-subtitle {
+    font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 20px;
+}
+.glass-panel h2 { margin-top: 0; font-size: 22px; margin-bottom: 20px; }
+
+/* Arama ve Şirket Ekleme */
+.search-wrapper { position: relative; margin-bottom: 15px; }
+.search-icon { 
+    position: absolute; left: 14px; top: 15px; 
+    font-size: 16px; color: rgba(255,255,255,0.4); 
+}
+.glass-input {
+    width: 100%; background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white; padding: 14px; border-radius: 12px; font-size: 15px;
+    outline: none; transition: all 0.3s ease;
+}
+.glass-input.with-icon { padding-left: 42px; }
+.glass-input::placeholder { color: rgba(255, 255, 255, 0.4); }
+.glass-input:focus { border-color: #22c55e; background: rgba(255, 255, 255, 0.1); }
+.glass-input.center { text-align: center; margin-bottom: 15px; padding-left: 14px;}
+
+.btn-glass {
+    background: #22c55e; color: white; border: none; padding: 14px; width: 100%;
+    border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.3); margin-bottom: 15px;
+    transition: transform 0.2s;
+}
+.btn-glass:active { transform: scale(0.97); }
+.btn-glass.add-new { background: rgba(255,255,255,0.1); border: 1px dashed rgba(255,255,255,0.3); box-shadow: none; margin-bottom: 20px; }
+.btn-glass.cancel { background: transparent; border: 1px solid rgba(255,255,255,0.2); box-shadow: none; }
+.btn-glass.danger { background: #ef4444; box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3); }
+
+.company-list { max-height: 220px; overflow-y: auto; text-align: left; }
+.company-item {
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(255, 255, 255, 0.08); padding: 12px 15px; border-radius: 12px;
+    margin-bottom: 8px; cursor: pointer; transition: 0.2s;
+}
+.company-item:hover { background: rgba(255, 255, 255, 0.12); }
+.company-item span { flex-grow: 1; font-weight: 600; }
+.btn-del-comp {
+    background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3);
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: bold;
+    cursor: pointer; margin-left: 10px;
+}
+
+/* --- ONAY PENCERESİ (MODAL) --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    display: none; justify-content: center; align-items: center; z-index: 100000; padding: 20px;
+}
+.modal-overlay.active { display: flex; }
+.modal-panel { padding: 30px 25px; margin: 0; }
+.modal-panel p { color: #cbd5e1; font-size: 15px; margin-bottom: 15px; line-height: 1.5; }
+.modal-buttons { display: flex; gap: 12px; }
+
+/* --- ANA UYGULAMA --- */
+#appContainer { display: none; }
+.app { max-width: 650px; margin: auto; min-height: 100vh; padding-bottom: 100px; }
+
+.header {
+    background: linear-gradient(135deg, #0f172a, #1e293b); color: white;
+    padding: 24px 20px; border-radius: 0 0 28px 28px; box-shadow: 0 8px 30px rgba(15,23,42,.2);
+}
+.header-top { display: flex; justify-content: space-between; align-items: center; }
+.header h1 { margin: 0; font-size: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.btn-exit {
+    background: rgba(255,255,255,0.1); border: none; color: white;
+    width: 34px; height: 34px; border-radius: 50%; font-size: 20px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.date { margin-top: 8px; opacity: .75; font-size: 13px; }
+
+.total-card { background: #22c55e; color: white; margin-top: 20px; padding: 18px; border-radius: 20px; }
+.total-label { font-size: 12px; opacity: .85; }
+.total-price { font-size: 30px; font-weight: 800; margin-top: 5px; }
+
+.content { padding: 18px; }
+.section-title { font-size: 18px; font-weight: 800; margin: 10px 0 14px; }
+
+.sale-card {
+    background: white; border-radius: 18px; padding: 18px 15px 15px;
+    margin-bottom: 12px; box-shadow: 0 4px 16px rgba(15,23,42,.07); border: 1px solid #e2e8f0; position: relative;
+}
+.delete-btn {
+    position: absolute; top: 8px; right: 8px;
+    width: 26px; height: 26px; border: none; border-radius: 6px;
+    background: #fee2e2; color: #dc2626; font-size: 18px; line-height: 0;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.sale-top { margin-bottom: 12px; padding-right: 25px; }
+.input { width: 100%; border: 1px solid #e2e8f0; background: #f8fafc; padding: 12px; border-radius: 10px; font-size: 14px; outline: none; }
+.input:focus { border-color: #22c55e; background: white; }
+
+.sale-bottom { display: grid; grid-template-columns: 1fr 115px auto; gap: 10px; align-items: center; }
+.small-label { display: block; font-size: 11px; color: #64748b; margin-bottom: 4px; }
+.line-total { font-weight: 800; color: #16a34a; min-width: 75px; text-align: right; }
+
+.qty-group {
+    display: flex; align-items: center; background: #f8fafc;
+    border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; height: 42px;
+}
+.qty-btn {
+    background: #e2e8f0; border: none; width: 34px; height: 100%;
+    font-size: 18px; font-weight: bold; color: #0f172a; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+}
+.qty-btn:active { background: #cbd5e1; }
+.qty-input {
+    width: 100%; border: none; background: transparent; text-align: center;
+    font-size: 15px; font-weight: 700; outline: none; -moz-appearance: textfield; padding: 0;
+}
+.qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.btn { border: none; border-radius: 12px; padding: 14px; width: 100%; font-size: 15px; font-weight: 700; cursor: pointer; }
+.btn-add { background: #0f172a; color: white; margin-top: 5px; }
+.btn-history { background: white; color: #0f172a; border: 1px solid #e2e8f0; margin-top: 12px; }
+
+.history { display: none; }
+.history.active { display: block; }
+.history-card { background: white; padding: 16px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #e2e8f0; }
+.history-date { font-weight: 800; }
+.history-total { color: #16a34a; font-size: 20px; font-weight: 800; margin-top: 6px; }
+.empty { text-align: center; color: #64748b; padding: 30px 10px; font-size: 14px;}
+
+.bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; padding: 12px 18px 24px; background: rgba(255,255,255,.94); backdrop-filter: blur(15px); border-top: 1px solid #e2e8f0; }
+.bottom-content { max-width: 650px; margin: auto; display: flex; justify-content: space-between; align-items: center; }
+.bottom-label { font-size: 13px; color: #64748b; }
+.bottom-total { font-size: 22px; font-weight: 900; color: #16a34a; }
+
+@media(max-width: 400px) {
+    .sale-bottom { grid-template-columns: 1fr 1fr; }
+    .line-total { grid-column: span 2; text-align: left; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ONAY PENCERESİ -->
+<div id="confirmModal" class="modal-overlay">
+    <div class="glass-panel modal-panel active">
+        <h2 id="modalTitle">Emin misin?</h2>
+        <p id="modalDesc">Bu işlemi geri alamazsınız.</p>
+        
+        <!-- Gizli Şifre Kutusu (Sadece şirket silerken açılır) -->
+        <input type="password" id="modalInput" class="glass-input center" style="display:none; margin-bottom:20px;" placeholder="Şirket Şifresi" maxlength="6" inputmode="numeric">
+        
+        <div class="modal-buttons">
+            <button class="btn-glass cancel" onclick="closeConfirm()" style="margin-bottom:0;">İptal</button>
+            <button class="btn-glass danger" onclick="executeConfirm()" style="margin-bottom:0;">Onayla</button>
+        </div>
+    </div>
+</div>
+
+<!-- GİRİŞ EKRANI -->
+<div id="loginPage">
+    <div class="glass-panel active" id="panelList">
+        <h1 class="brand-title">CepkasaX</h1>
+        <div class="brand-subtitle">Şirket Seçimi</div>
+        
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" class="glass-input with-icon" placeholder="Şirket ara..." oninput="renderCompanyList()">
+        </div>
+        
+        <button class="btn-glass add-new" onclick="showPanel('panelAdd')">+ Şirket Ekle</button>
+        
+        <div id="companyList" class="company-list"></div>
+    </div>
+
+    <div class="glass-panel" id="panelAdd">
+        <h1 class="brand-title">CepkasaX</h1>
+        <div class="brand-subtitle">Yeni Şirket Ekle</div>
+        
+        <input type="text" id="newCompName" class="glass-input center" placeholder="Şirket Adı">
+        <input type="password" id="newCompPin" class="glass-input center" placeholder="6 Haneli Şifre Belirle" maxlength="6" inputmode="numeric">
+        <button class="btn-glass" onclick="createNewCompany()">Oluştur</button>
+        <button class="btn-glass cancel" onclick="showPanel('panelList')">İptal</button>
+    </div>
+
+    <div class="glass-panel" id="panelLogin">
+        <h2 id="loginTitle">Şifre Girin</h2>
+        <input type="password" id="loginPin" class="glass-input center" placeholder="6 Haneli Şifre" maxlength="6" inputmode="numeric">
+        <button class="btn-glass" onclick="verifyLogin()">Giriş Yap</button>
+        <button class="btn-glass cancel" onclick="showPanel('panelList')">İptal</button>
+    </div>
+</div>
+
+<!-- ANA UYGULAMA -->
+<div id="appContainer">
+    <div class="app">
+        <div class="header">
+            <div class="header-top">
+                <h1 id="companyTitle">🏢 Şirket Adı</h1>
+                <button class="btn-exit" onclick="logout()" title="Çıkış Yap">×</button>
+            </div>
+            <div class="date" id="todayDate"></div>
+            <div class="total-card">
+                <div class="total-label">BUGÜNKÜ TOPLAM SATIŞ</div>
+                <div class="total-price" id="headerTotal">₺0,00</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="salesPage">
+                <div class="section-title">Bugünkü Ürünler</div>
+                <div id="salesList"></div>
+                <button class="btn btn-add" onclick="addSale()">+ Yeni Ürün Ekle</button>
+                <button class="btn btn-history" onclick="showHistory()">📅 Eski Günleri Görüntüle</button>
+            </div>
+
+            <div id="historyPage" class="history">
+                <div class="section-title">📅 Geçmiş Satış Günleri</div>
+                <div id="historyList"></div>
+                <button class="btn btn-add" onclick="showSales()">← Bugüne Dön</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-bar">
+        <div class="bottom-content">
+            <div><div class="bottom-label">GÜNLÜK TOPLAM</div></div>
+            <div class="bottom-total" id="bottomTotal">₺0,00</div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ==========================================
+// 🚀 İNTERNETTEN EŞZAMANLI BAĞLANTI (FIREBASE AKTİF)
+// ==========================================
+const USE_FIREBASE = true; 
+
+// KENDİ ORİJİNAL ŞİFRELERİN KODA EKLENDİ
+const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyBBMA96J2T2sx2v5cWg4VltVGZugqsPkrA",
+    authDomain: "satispratik-2f76d.firebaseapp.com",
+    databaseURL: "https://satispratik-2f76d-default-rtdb.firebaseio.com",
+    projectId: "satispratik-2f76d",
+    storageBucket: "satispratik-2f76d.firebasestorage.app",
+    messagingSenderId: "236261356751",
+    appId: "1:236261356751:web:417421029ecb510ae1f3ba",
+    measurementId: "G-35CZYG9K6J"
+};
+
+let db = null;
+if (USE_FIREBASE) {
+    try {
+        firebase.initializeApp(FIREBASE_CONFIG);
+        db = firebase.database();
+    } catch (error) {
+        console.warn("Firebase bağlantısı kurulamadı. Uygulama sadece telefon hafızasında çalışmaya devam edecek.");
+    }
+}
+
+// --- ORTAK ONAY/REDDET (MODAL) YÖNETİMİ ---
+let confirmActionCallback = null;
+let confirmRequiresPin = false;
+let confirmPinValue = "";
+
+function openConfirm(title, description, actionCallback, requirePin = false, expectedPin = "") {
+    document.getElementById("modalTitle").innerText = title;
+    document.getElementById("modalDesc").innerText = description;
+    confirmActionCallback = actionCallback;
+    confirmRequiresPin = requirePin;
+    confirmPinValue = expectedPin;
+    
+    const pinInput = document.getElementById("modalInput");
+    if (requirePin) {
+        pinInput.style.display = "block";
+        pinInput.value = "";
+        // Klavyeyi tetiklemek için gecikmeli odaklama
+        setTimeout(() => pinInput.focus(), 150);
+    } else {
+        pinInput.style.display = "none";
+    }
+    
+    document.getElementById("confirmModal").classList.add("active");
+}
+
+function closeConfirm() {
+    confirmActionCallback = null;
+    document.getElementById("confirmModal").classList.remove("active");
+}
+
+function executeConfirm() {
+    if (confirmRequiresPin) {
+        const entered = document.getElementById("modalInput").value.trim();
+        if (entered !== confirmPinValue) {
+            alert("Hatalı Şifre Girdiniz! Şirket silinemez.");
+            return;
+        }
+    }
+    if (confirmActionCallback) confirmActionCallback();
+    closeConfirm();
+}
+
+// --- ŞİRKET YÖNETİMİ ---
+let companies = [];
+let activeCompany = null; 
+let STORAGE_KEY = ""; 
+
+function loadCompanies() {
+    const localData = JSON.parse(localStorage.getItem("app_companies")) || [];
+    if (localData.length > 0) {
+        companies = localData;
+        renderCompanyList();
+    }
+
+    if (USE_FIREBASE && db) {
+        db.ref('companies').on('value', (snapshot) => {
+            const data = snapshot.val() || [];
+            companies = Array.isArray(data) ? data : Object.values(data);
+            localStorage.setItem("app_companies", JSON.stringify(companies));
+            renderCompanyList();
+        });
+    }
+}
+
+function saveCompanies() { 
+    localStorage.setItem("app_companies", JSON.stringify(companies));
+    if (USE_FIREBASE && db) {
+        db.ref('companies').set(companies).catch(err => console.warn("İnternete gönderilemedi."));
+    }
+}
+
+function showPanel(panelId) {
+    document.querySelectorAll('#loginPage .glass-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(panelId).classList.add("active");
+    document.querySelectorAll('#loginPage input').forEach(i => i.value = "");
+}
+
+function renderCompanyList() {
+    const list = document.getElementById("companyList");
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    list.innerHTML = "";
+
+    const filtered = companies.filter(c => c && c.name && c.name.toLowerCase().includes(query));
+
+    if (filtered.length === 0) {
+        list.innerHTML = `<div style="text-align:center; color:#94a3b8; margin-top:10px;">Henüz şirket yok.</div>`;
+        return;
+    }
+
+    filtered.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "company-item";
+        div.onclick = () => {
+            activeCompany = c;
+            document.getElementById("loginTitle").innerText = c.name;
+            showPanel("panelLogin");
+            setTimeout(() => document.getElementById("loginPin").focus(), 100);
+        };
+        
+        div.innerHTML = `
+            <span>${escapeHTML(c.name)}</span>
+            <button class="btn-del-comp" onclick="requestDeleteCompany('${c.id}', event, '${c.pin}')">-</button>
+        `;
+        list.appendChild(div);
+    });
+}
+
+function createNewCompany() {
+    const name = document.getElementById("newCompName").value.trim();
+    const pin = document.getElementById("newCompPin").value.trim();
+
+    if (!name) return alert("Şirket adı boş olamaz!");
+    if (!/^\d{6}$/.test(pin)) return alert("Şifre 6 haneli rakam olmalıdır!");
+
+    companies.push({ id: "comp_" + Date.now(), name: name, pin: pin });
+    saveCompanies(); 
+    renderCompanyList(); 
+    showPanel("panelList");
+}
+
+function requestDeleteCompany(id, event, pin) {
+    event.stopPropagation();
+    openConfirm(
+        "Şirketi Sil", 
+        "Bu şirketi silmek için kurarken belirlediğiniz 6 haneli şifreyi girmelisiniz.", 
+        () => {
+            companies = companies.filter(c => c.id !== id);
+            saveCompanies();
+            renderCompanyList();
+        },
+        true, // Şifre istensin mi?
+        pin   // Beklenen doğru şifre
+    );
+}
+
+function verifyLogin() {
+    const pinInput = document.getElementById("loginPin").value.trim();
+    if (pinInput === activeCompany.pin) startApp(activeCompany);
+    else alert("Hatalı Şifre!");
+}
+
+function logout() {
+    document.getElementById("appContainer").style.display = "none";
+    document.getElementById("loginPage").style.display = "flex";
+    showPanel("panelList");
+    STORAGE_KEY = "";
+}
+
+loadCompanies();
+
+// --- SATIŞ UYGULAMASI (EŞZAMANLI VERİTABANI BAĞLANTISI) ---
+let isTyping = false; // KLAVYE KAPANMA SORUNUNU ÇÖZEN SENSÖR
+
+function handleBlur() {
+    isTyping = false;
+    // Yazma bittikten hemen sonra ekranı en güncel haliyle çiz (ufak bir gecikme ile focus yakalar)
+    setTimeout(() => {
+        if (!isTyping) renderSales();
+    }, 150);
+}
+
+function startApp(company) {
+    STORAGE_KEY = "data_" + company.id;
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("appContainer").style.display = "block";
+    document.getElementById("companyTitle").innerText = `🏢 ${company.name}`;
+    
+    showDate();
+    renderSales();
+    
+    if (USE_FIREBASE && db) {
+        db.ref('sales/' + company.id).on('value', (snapshot) => {
+            const incomingData = snapshot.val() || {};
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(incomingData));
+            
+            // Eğer o anda kullanıcı ekranda yazı yazmıyorsa (klavye açık değilse) güncellemeyi ekrana bas
+            if (!isTyping) {
+                renderSales();
+                if(document.getElementById("historyPage").classList.contains("active")) renderHistory();
+            }
+        });
+    }
+}
+
+function getTodayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+function formatDate(dateKey) {
+    const [y, m, d] = dateKey.split("-");
+    return `${d}.${m}.${y}`;
+}
+
+function getData() { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+
+function saveTodaySales(sales) {
+    const data = getData();
+    const today = getTodayKey();
+    data[today] = sales;
+    
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+    if (USE_FIREBASE && db) {
+        db.ref('sales/' + activeCompany.id + '/' + today).set(sales);
+    }
+}
+
+function getTodaySales() {
+    const data = getData();
+    return data[getTodayKey()] || [];
+}
+
+function money(val) { return new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY" }).format(val || 0); }
+
+function showDate() {
+    document.getElementById("todayDate").innerText = new Date().toLocaleDateString("tr-TR", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+}
+
+function addSale(product = "", price = "", quantity = 1) {
+    const sales = getTodaySales();
+    sales.push({ product, price, quantity });
+    saveTodaySales(sales);
+    renderSales(); 
+}
+
+function requestDeleteSale(index) {
+    const sales = getTodaySales();
+    const productName = sales[index].product || "Bu ürünü";
+    
+    openConfirm(
+        "Ürünü Kaldır", 
+        `"${productName}" adlı satışı kaldırmak istediğine emin misin?`, 
+        () => {
+            sales.splice(index, 1);
+            saveTodaySales(sales);
+            renderSales();
+        }
+    );
+}
+
+function changeQty(index, amount) {
+    const sales = getTodaySales();
+    let currentQty = Number(sales[index].quantity) || 0;
+    let nextQty = currentQty + amount;
+    if (nextQty < 1) nextQty = 1; 
+    
+    sales[index].quantity = nextQty;
+    saveTodaySales(sales);
+    
+    const qtyInputs = document.querySelectorAll(".qty-input");
+    if(qtyInputs[index]) qtyInputs[index].value = nextQty;
+    updateTotalsDOM(sales, index);
+}
+
+function updateSale(index, field, value) {
+    const sales = getTodaySales();
+    if (field === "price" || field === "quantity") value = value === "" ? "" : Number(value);
+    sales[index][field] = value;
+    saveTodaySales(sales);
+    updateTotalsDOM(sales, index); 
+}
+
+function updateTotalsDOM(sales, index) {
+    const totals = document.querySelectorAll(".line-total");
+    if (totals[index]) {
+        totals[index].innerText = money((Number(sales[index].price) || 0) * (Number(sales[index].quantity) || 0));
+    }
+    const total = sales.reduce((sum, sale) => sum + ((Number(sale.price) || 0) * (Number(sale.quantity) || 0)), 0);
+    document.getElementById("headerTotal").innerText = money(total);
+    document.getElementById("bottomTotal").innerText = money(total);
+}
+
+function renderSales() {
+    const list = document.getElementById("salesList");
+    const sales = getTodaySales();
+    list.innerHTML = "";
+
+    if (sales.length === 0) {
+        list.innerHTML = `<div class="empty">Henüz ürün eklenmedi.<br>İlk satışını eklemek için aşağıdaki butona bas.</div>`;
+    } else {
+        sales.forEach((sale, index) => {
+            const lineTotal = (Number(sale.price) || 0) * (Number(sale.quantity) || 0);
+            const card = document.createElement("div");
+            card.className = "sale-card";
+            card.innerHTML = `
+                <button class="delete-btn" onclick="requestDeleteSale(${index})" title="Sil">×</button>
+                <div class="sale-top">
+                    <input class="input" placeholder="Ürün adı" value="${escapeHTML(sale.product || "")}" 
+                        onfocus="isTyping = true" onblur="handleBlur()" oninput="updateSale(${index}, 'product', this.value)">
+                </div>
+                <div class="sale-bottom">
+                    <div>
+                        <span class="small-label">Birim Fiyat</span>
+                        <input class="input" type="number" inputmode="decimal" placeholder="₺" value="${sale.price || ""}" 
+                            onfocus="isTyping = true" onblur="handleBlur()" oninput="updateSale(${index}, 'price', this.value)">
+                    </div>
+                    <div>
+                        <span class="small-label">Adet</span>
+                        <div class="qty-group">
+                            <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
+                            <input class="qty-input" type="number" inputmode="numeric" min="1" value="${sale.quantity || 1}" 
+                                onfocus="isTyping = true" onblur="handleBlur()" oninput="updateSale(${index}, 'quantity', this.value)">
+                            <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="line-total">${money(lineTotal)}</div>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    }
+    
+    const total = sales.reduce((sum, sale) => sum + ((Number(sale.price) || 0) * (Number(sale.quantity) || 0)), 0);
+    document.getElementById("headerTotal").innerText = money(total);
+    document.getElementById("bottomTotal").innerText = money(total);
+}
+
+function showHistory() {
+    document.getElementById("salesPage").style.display = "none";
+    document.getElementById("historyPage").classList.add("active");
+    renderHistory();
+}
+
+function showSales() {
+    document.getElementById("historyPage").classList.remove("active");
+    document.getElementById("salesPage").style.display = "block";
+}
+
+function renderHistory() {
+    const data = getData();
+    const historyList = document.getElementById("historyList");
+    historyList.innerHTML = "";
+    const days = Object.keys(data).sort().reverse();
+
+    if (days.length === 0) {
+        historyList.innerHTML = `<div class="empty">Henüz kayıtlı satış günü yok.</div>`;
+        return;
+    }
+
+    days.forEach(day => {
+        const sales = data[day];
+        const total = sales.reduce((sum, sale) => sum + ((Number(sale.price) || 0) * (Number(sale.quantity) || 0)), 0);
+        const card = document.createElement("div");
+        card.className = "history-card";
+        card.innerHTML = `
+            <div class="history-date">📅 ${formatDate(day)}</div>
+            <div class="history-total">${money(total)}</div>
+            <div style="margin-top:8px; color:#64748b; font-size:13px;">${sales.length} ürün kaydı</div>
+        `;
+        historyList.appendChild(card);
+    });
+}
+
+function escapeHTML(text) {
+    const div = document.createElement("div");
+    div.innerText = text;
+    return div.innerHTML;
+}
+</script>
+
+</body>
+</html>
