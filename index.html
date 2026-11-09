@@ -9,7 +9,7 @@
 <!-- GOOGLE SEARCH CONSOLE DOĞRULAMA KODU -->
 <meta name="google-site-verification" content="OMRhTpHg1yEGezehS5HN6kFjUol8gSi-f4D9ghG8QGs" />
 
-<!-- GOOGLE VE ARAMA MOTORU AYARLARI (SEO) -->
+<!-- GOOGLE VE ARAMA MOTORu AYARLARI (SEO) -->
 <title>CepkasaX</title>
 <meta name="description" content="CepkasaX - İşletmeler için ücretsiz, anlık senkronize satış, ciro ve ürün takip uygulaması. Şirketinizi ekleyin, satışlarınızı her cihazdan canlı takip edin.">
 <meta name="keywords" content="CepkasaX, cepkasax, CepKasaX, cep kasa x, satış takip, ciro takip, ortak kasa, ön muhasebe, ücretsiz satış programı, esnaf kasa programı">
@@ -20,7 +20,7 @@
 <meta property="og:description" content="Farklı cihazlardan eşzamanlı olarak satışlarınızı takip edin. Verileriniz anında cebinizde.">
 <meta property="og:type" content="website">
 
-<!-- CEPKASAX BÜYÜK VE OKUNAKLI YAZI LOGOSU -->
+<!-- CEPKASAX LOGOSU -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 150'><rect width='500' height='150' rx='35' fill='%230f172a'/><text x='250' y='98' font-size='72' font-weight='900' fill='%2322c55e' text-anchor='middle' font-family='Arial, sans-serif' letter-spacing='1'>CepKasaX</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 150'><rect width='500' height='150' rx='35' fill='%230f172a'/><text x='250' y='98' font-size='72' font-weight='900' fill='%2322c55e' text-anchor='middle' font-family='Arial, sans-serif' letter-spacing='1'>CepKasaX</text></svg>">
 
@@ -33,13 +33,11 @@
 * { 
     box-sizing: border-box; 
     -webkit-tap-highlight-color: transparent; 
-    /* Metin Seçimini Engelleme */
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
 
-/* Input ve Textarea'larda yazı seçimine/yazmaya İZİN VER */
 input, textarea {
     -webkit-user-select: auto !important;
     -ms-user-select: auto !important;
@@ -51,7 +49,6 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
     background: #f1f5f9;
     color: #0f172a;
-    /* Çift tıklama ile yakınlaştırmayı kökten çözer */
     touch-action: manipulation; 
 }
 
@@ -75,7 +72,6 @@ body {
 }
 .glass-panel.active { display: block; }
 
-/* Marka ve Başlıklar */
 .brand-title {
     font-size: 28px; font-weight: 900; color: #22c55e;
     margin-top: 0; margin-bottom: 5px; letter-spacing: 1px;
@@ -85,7 +81,6 @@ body {
 }
 .glass-panel h2 { margin-top: 0; font-size: 22px; margin-bottom: 20px; }
 
-/* Arama ve Şirket Ekleme */
 .search-wrapper { position: relative; margin-bottom: 15px; }
 .search-icon { 
     position: absolute; left: 14px; top: 15px; 
@@ -200,6 +195,8 @@ body {
 .btn { border: none; border-radius: 12px; padding: 14px; width: 100%; font-size: 15px; font-weight: 700; cursor: pointer; }
 .btn-add { background: #0f172a; color: white; margin-top: 5px; }
 .btn-history { background: white; color: #0f172a; border: 1px solid #e2e8f0; margin-top: 12px; }
+.btn-excel { background: #16a34a; color: white; margin-top: 8px; }
+.btn-pdf { background: #dc2626; color: white; margin-top: 8px; }
 
 .history { display: none; }
 .history.active { display: block; }
@@ -228,7 +225,6 @@ body {
         <h2 id="modalTitle">Emin misin?</h2>
         <p id="modalDesc">Bu işlemi geri alamazsınız.</p>
         
-        <!-- Gizli Şifre Kutusu (Sadece şirket silerken açılır) -->
         <input type="password" id="modalInput" class="glass-input center" style="display:none; margin-bottom:20px;" placeholder="Şirket Şifresi" maxlength="6" inputmode="numeric">
         
         <div class="modal-buttons">
@@ -238,7 +234,7 @@ body {
     </div>
 </div>
 
-<!-- GİRİŞ EKRANI -->
+<!-- GİRİŞ EKRANI (autocomplete engellenmiş) -->
 <div id="loginPage">
     <div class="glass-panel active" id="panelList">
         <h1 class="brand-title">CepkasaX</h1>
@@ -246,7 +242,7 @@ body {
         
         <div class="search-wrapper">
             <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" class="glass-input with-icon" placeholder="Şirket ara..." oninput="renderCompanyList()">
+            <input type="text" id="searchInput" class="glass-input with-icon" placeholder="Şirket ara..." oninput="renderCompanyList()" autocomplete="off">
         </div>
         
         <button class="btn-glass add-new" onclick="showPanel('panelAdd')">+ Şirket Ekle</button>
@@ -258,15 +254,15 @@ body {
         <h1 class="brand-title">CepkasaX</h1>
         <div class="brand-subtitle">Yeni Şirket Ekle</div>
         
-        <input type="text" id="newCompName" class="glass-input center" placeholder="Şirket Adı">
-        <input type="password" id="newCompPin" class="glass-input center" placeholder="6 Haneli Şifre Belirle" maxlength="6" inputmode="numeric">
+        <input type="text" id="newCompName" class="glass-input center" placeholder="Şirket Adı" autocomplete="off">
+        <input type="password" id="newCompPin" class="glass-input center" placeholder="6 Haneli Şifre Belirle" maxlength="6" inputmode="numeric" autocomplete="new-password">
         <button class="btn-glass" onclick="createNewCompany()">Oluştur</button>
         <button class="btn-glass cancel" onclick="showPanel('panelList')">İptal</button>
     </div>
 
     <div class="glass-panel" id="panelLogin">
         <h2 id="loginTitle">Şifre Girin</h2>
-        <input type="password" id="loginPin" class="glass-input center" placeholder="6 Haneli Şifre" maxlength="6" inputmode="numeric">
+        <input type="password" id="loginPin" class="glass-input center" placeholder="6 Haneli Şifre" maxlength="6" inputmode="numeric" autocomplete="current-password" onkeydown="if(event.key === 'Enter') verifyLogin()">
         <button class="btn-glass" onclick="verifyLogin()">Giriş Yap</button>
         <button class="btn-glass cancel" onclick="showPanel('panelList')">İptal</button>
     </div>
@@ -292,11 +288,19 @@ body {
                 <div class="section-title">Bugünkü Ürünler</div>
                 <div id="salesList"></div>
                 <button class="btn btn-add" onclick="addSale()">+ Yeni Ürün Ekle</button>
-                <button class="btn btn-history" onclick="showHistory()">📅 Eski Günleri Görüntüle</button>
+                <button class="btn btn-history" onclick="showHistory()">📅 Geçmiş Günler ve Raporlar</button>
             </div>
 
             <div id="historyPage" class="history">
-                <div class="section-title">📅 Geçmiş Satış Günleri</div>
+                <div class="section-title">📅 Geçmiş Raporlar ve Dökümler</div>
+                
+                <!-- RAPORLAMA BUTONLARI -->
+                <div style="background: white; padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #e2e8f0;">
+                    <div style="font-weight: 800; margin-bottom: 10px; font-size: 15px;">📊 Excel / PDF Rapor Al</div>
+                    <button class="btn btn-excel" onclick="exportReport('excel')">📥 Excel'e Aktar (Tüm Veriler)</button>
+                    <button class="btn btn-pdf" onclick="exportReport('pdf')">🖨️ PDF Rapor / Yazdır</button>
+                </div>
+
                 <div id="historyList"></div>
                 <button class="btn btn-add" onclick="showSales()">← Bugüne Dön</button>
             </div>
@@ -312,12 +316,8 @@ body {
 </div>
 
 <script>
-// ==========================================
-// 🚀 İNTERNETTEN EŞZAMANLI BAĞLANTI (FIREBASE AKTİF)
-// ==========================================
 const USE_FIREBASE = true; 
 
-// KENDİ ORİJİNAL ŞİFRELERİN KODA EKLENDİ
 const FIREBASE_CONFIG = {
     apiKey: "AIzaSyBBMA96J2T2sx2v5cWg4VltVGZugqsPkrA",
     authDomain: "satispratik-2f76d.firebaseapp.com",
@@ -335,11 +335,10 @@ if (USE_FIREBASE) {
         firebase.initializeApp(FIREBASE_CONFIG);
         db = firebase.database();
     } catch (error) {
-        console.warn("Firebase bağlantısı kurulamadı. Uygulama sadece telefon hafızasında çalışmaya devam edecek.");
+        console.warn("Firebase bağlantısı kurulamadı.");
     }
 }
 
-// --- ORTAK ONAY/REDDET (MODAL) YÖNETİMİ ---
 let confirmActionCallback = null;
 let confirmRequiresPin = false;
 let confirmPinValue = "";
@@ -355,12 +354,10 @@ function openConfirm(title, description, actionCallback, requirePin = false, exp
     if (requirePin) {
         pinInput.style.display = "block";
         pinInput.value = "";
-        // Klavyeyi tetiklemek için gecikmeli odaklama
         setTimeout(() => pinInput.focus(), 150);
     } else {
         pinInput.style.display = "none";
     }
-    
     document.getElementById("confirmModal").classList.add("active");
 }
 
@@ -381,7 +378,6 @@ function executeConfirm() {
     closeConfirm();
 }
 
-// --- ŞİRKET YÖNETİMİ ---
 let companies = [];
 let activeCompany = null; 
 let STORAGE_KEY = ""; 
@@ -469,8 +465,8 @@ function requestDeleteCompany(id, event, pin) {
             saveCompanies();
             renderCompanyList();
         },
-        true, // Şifre istensin mi?
-        pin   // Beklenen doğru şifre
+        true, 
+        pin   
     );
 }
 
@@ -489,12 +485,10 @@ function logout() {
 
 loadCompanies();
 
-// --- SATIŞ UYGULAMASI (EŞZAMANLI VERİTABANI BAĞLANTISI) ---
-let isTyping = false; // KLAVYE KAPANMA SORUNUNU ÇÖZEN SENSÖR
+let isTyping = false;
 
 function handleBlur() {
     isTyping = false;
-    // Yazma bittikten hemen sonra ekranı en güncel haliyle çiz (ufak bir gecikme ile focus yakalar)
     setTimeout(() => {
         if (!isTyping) renderSales();
     }, 150);
@@ -514,7 +508,6 @@ function startApp(company) {
             const incomingData = snapshot.val() || {};
             localStorage.setItem(STORAGE_KEY, JSON.stringify(incomingData));
             
-            // Eğer o anda kullanıcı ekranda yazı yazmıyorsa (klavye açık değilse) güncellemeyi ekrana bas
             if (!isTyping) {
                 renderSales();
                 if(document.getElementById("historyPage").classList.contains("active")) renderHistory();
@@ -558,7 +551,8 @@ function showDate() {
     document.getElementById("todayDate").innerText = new Date().toLocaleDateString("tr-TR", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
 }
 
-function addSale(product = "", price = "", quantity = 1) {
+/* YENİ ÜRÜN EKLENDİĞİNDE ADET ARTIK 0 İLE BAŞLIYOR */
+function addSale(product = "", price = "", quantity = 0) {
     const sales = getTodaySales();
     sales.push({ product, price, quantity });
     saveTodaySales(sales);
@@ -584,7 +578,7 @@ function changeQty(index, amount) {
     const sales = getTodaySales();
     let currentQty = Number(sales[index].quantity) || 0;
     let nextQty = currentQty + amount;
-    if (nextQty < 1) nextQty = 1; 
+    if (nextQty < 0) nextQty = 0; 
     
     sales[index].quantity = nextQty;
     saveTodaySales(sales);
@@ -640,7 +634,7 @@ function renderSales() {
                         <span class="small-label">Adet</span>
                         <div class="qty-group">
                             <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
-                            <input class="qty-input" type="number" inputmode="numeric" min="1" value="${sale.quantity || 1}" 
+                            <input class="qty-input" type="number" inputmode="numeric" min="0" value="${sale.quantity !== undefined ? sale.quantity : 0}" 
                                 onfocus="isTyping = true" onblur="handleBlur()" oninput="updateSale(${index}, 'quantity', this.value)">
                             <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
                         </div>
@@ -691,6 +685,87 @@ function renderHistory() {
         `;
         historyList.appendChild(card);
     });
+}
+
+/* EXCEL VE PDF DIŞA AKTARIM FONKSİYONLARI */
+function exportReport(type) {
+    const data = getData();
+    const days = Object.keys(data).sort().reverse();
+
+    if (days.length === 0) {
+        alert("Dışa aktarılacak kayıt bulunmuyor!");
+        return;
+    }
+
+    if (type === 'excel') {
+        // CSV (Excel uyumlu) formatı oluşturma
+        let csvContent = "Tarih;Urun Adi;Birim Fiyat;Adet;Toplam Tutar\n";
+        days.forEach(day => {
+            const sales = data[day];
+            sales.forEach(s => {
+                const pName = (s.product || "Ürün").replace(/;/g, ",");
+                const pPrice = s.price || 0;
+                const pQty = s.quantity || 0;
+                const pTotal = pPrice * pQty;
+                csvContent += `${formatDate(day)};${pName};${pPrice};${pQty};${pTotal}\n`;
+            });
+        });
+
+        const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.setAttribute("href", url);
+        a.setAttribute("download", `${activeCompany.name}_satis_raporu.csv`);
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+    } else if (type === 'pdf') {
+        // PDF / Yazdırma penceresi oluşturma
+        let printWindow = window.open('', '_blank');
+        let htmlContent = `
+            <html>
+            <head>
+                <title>${activeCompany.name} - Satış Raporu</title>
+                <style>
+                    body { font-family: Arial, sans-serif; padding: 20px; color: #0f172a; }
+                    h2 { color: #16a34a; border-bottom: 2px solid #16a34a; padding-bottom: 5px; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+                    th, td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; font-size: 14px; }
+                    th { background: #f8fafc; }
+                    .total { font-weight: bold; margin-top: 20px; font-size: 16px; }
+                </style>
+            </head>
+            <body>
+                <h2>🏢 ${activeCompany.name} - Satış Raporu</h2>
+                <p>Oluşturulma Tarihi: ${new Date().toLocaleDateString("tr-TR")}</p>
+        `;
+
+        let grandTotal = 0;
+        days.forEach(day => {
+            const sales = data[day];
+            let dayTotal = sales.reduce((sum, s) => sum + ((Number(s.price) || 0) * (Number(s.quantity) || 0)), 0);
+            grandTotal += dayTotal;
+
+            htmlContent += `<h3>📅 ${formatDate(day)} (Günlük Toplam: ${money(dayTotal)})</h3>`;
+            htmlContent += `<table><tr><th>Ürün Adı</th><th>Birim Fiyat</th><th>Adet</th><th>Toplam</th></tr>`;
+            sales.forEach(s => {
+                const lineT = (Number(s.price) || 0) * (Number(s.quantity) || 0);
+                htmlContent += `<tr><td>${escapeHTML(s.product || "-")}</td><td>${money(s.price)}</td><td>${s.quantity}</td><td>${money(lineT)}</td></tr>`;
+            });
+            htmlContent += `</table>`;
+        });
+
+        htmlContent += `<div class="total">Genel Toplam Ciro: ${money(grandTotal)}</div>`;
+        htmlContent += `</body></html>`;
+
+        printWindow.document.write(htmlContent);
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => {
+            printWindow.print();
+        }, 500);
+    }
 }
 
 function escapeHTML(text) {
