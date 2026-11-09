@@ -6,6 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0f172a">
 
+<!-- GOOGLE SEARCH CONSOLE DOĞRULAMA KODU -->
+<meta name="google-site-verification" content="OMRhTpHg1yEGezehS5HN6kFjUol8gSi-f4D9ghG8QGs" />
+
 <!-- GOOGLE VE ARAMA MOTORU AYARLARI (SEO) -->
 <title>CepkasaX</title>
 <meta name="description" content="CepkasaX - İşletmeler için ücretsiz, anlık senkronize satış, ciro ve ürün takip uygulaması. Şirketinizi ekleyin, satışlarınızı her cihazdan canlı takip edin.">
@@ -627,7 +630,7 @@ function renderSales() {
                     <div>
                         <span class="small-label">Birim Fiyat</span>
                         <input class="input" type="number" inputmode="decimal" placeholder="₺" value="${sale.price || ""}" 
-                            onfocus="is steeply = true" onblur="handleBlur()" oninput="updateSale(${index}, 'price', this.value)">
+                            onfocus="isTyping = true" onblur="handleBlur()" oninput="updateSale(${index}, 'price', this.value)">
                     </div>
                     <div>
                         <span class="small-label">Adet</span>
