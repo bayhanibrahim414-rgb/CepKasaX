@@ -5,7 +5,17 @@
 <!-- Yakınlaştırmayı önleyen katı viewport ayarı -->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0f172a">
+
+<!-- GOOGLE VE ARAMA MOTORU AYARLARI (SEO) -->
 <title>CepkasaX</title>
+<meta name="description" content="CepkasaX - İşletmeler için ücretsiz, anlık senkronize satış, ciro ve ürün takip uygulaması. Şirketinizi ekleyin, satışlarınızı her cihazdan canlı takip edin.">
+<meta name="keywords" content="CepkasaX, cepkasax, CepKasaX, cep kasa x, satış takip, ciro takip, ortak kasa, ön muhasebe, ücretsiz satış programı, esnaf kasa programı">
+<meta name="author" content="CepkasaX">
+
+<!-- SOSYAL MEDYA ÖNİZLEME AYARLARI (WhatsApp, Instagram vb.) -->
+<meta property="og:title" content="CepkasaX - Canlı Satış ve Kasa Takibi">
+<meta property="og:description" content="Farklı cihazlardan eşzamanlı olarak satışlarınızı takip edin. Verileriniz anında cebinizde.">
+<meta property="og:type" content="website">
 
 <!-- FIREBASE SDK -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -617,7 +627,7 @@ function renderSales() {
                     <div>
                         <span class="small-label">Birim Fiyat</span>
                         <input class="input" type="number" inputmode="decimal" placeholder="₺" value="${sale.price || ""}" 
-                            onfocus="isTyping = true" onblur="handleBlur()" oninput="updateSale(${index}, 'price', this.value)">
+                            onfocus="is steeply = true" onblur="handleBlur()" oninput="updateSale(${index}, 'price', this.value)">
                     </div>
                     <div>
                         <span class="small-label">Adet</span>
