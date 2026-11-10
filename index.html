@@ -29,8 +29,14 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
 .glass-panel.active { display: block; }
 .brand-title { font-size: 28px; font-weight: 900; color: #22c55e; margin-top: 0; margin-bottom: 5px; letter-spacing: 1px; }
 .brand-subtitle { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
+
+/* YEŞİL TASARIMLI ARAMA KUTUSU */
 .search-wrapper { position: relative; margin-bottom: 15px; }
-.search-icon { position: absolute; left: 14px; top: 15px; font-size: 16px; color: rgba(255,255,255,0.4); }
+.search-icon { position: absolute; left: 14px; top: 15px; font-size: 16px; color: #22c55e; font-weight:bold; }
+#searchInput { border: 1px solid rgba(34, 197, 94, 0.6); background: rgba(34, 197, 94, 0.1); color: white; transition: 0.3s; }
+#searchInput::placeholder { color: rgba(255, 255, 255, 0.7); }
+#searchInput:focus { border-color: #22c55e; background: rgba(34, 197, 94, 0.2); box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
+
 .glass-input { width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 14px; border-radius: 12px; font-size: 15px; outline: none; transition: all 0.3s ease; }
 .glass-input.with-icon { padding-left: 42px; }
 .glass-input::placeholder { color: rgba(255, 255, 255, 0.4); }
@@ -43,12 +49,13 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
 .btn-glass:active { transform: scale(0.97); }
 .btn-glass.add-new { background: rgba(255,255,255,0.1); border: 1px dashed rgba(255,255,255,0.3); box-shadow: none; margin-bottom: 20px; }
 .btn-glass.cancel { background: transparent; border: 1px solid rgba(255,255,255,0.2); box-shadow: none; }
-.btn-glass.danger { background: #ef4444; box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3); }
+.btn-glass.danger { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.5); color: #fca5a5; box-shadow: none; }
 
 .company-list { max-height: 220px; overflow-y: auto; text-align: left; }
-.company-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.08); padding: 12px 15px; border-radius: 12px; margin-bottom: 8px; cursor: pointer; }
-.company-item span { flex-grow: 1; font-weight: 600; }
-.btn-del-comp { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); width: 32px; height: 32px; border-radius: 8px; font-size: 22px; font-weight: bold; cursor: pointer; margin-left: 10px; }
+.company-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.08); padding: 14px 15px; border-radius: 12px; margin-bottom: 8px; cursor: pointer; border: 1px solid transparent; transition: 0.2s;}
+.company-item:hover { border-color: rgba(34, 197, 94, 0.4); background: rgba(255,255,255,0.12); }
+.company-item span { flex-grow: 1; font-weight: 600; font-size:16px; }
+.arrow-icon { color: #22c55e; font-size: 18px; font-weight: bold; }
 
 /* MODAL YAPI */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 100000; padding: 20px; }
@@ -61,14 +68,13 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
 #appContainer { display: none; }
 .app { max-width: 650px; margin: auto; min-height: 100vh; padding-bottom: 100px; }
 .header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 24px 20px; border-radius: 0 0 28px 28px; box-shadow: 0 8px 30px rgba(15,23,42,.2); position: relative;}
-.header-top { display: flex; justify-content: space-between; align-items: center; }
-.header h1 { margin: 0; font-size: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.header-top { display: flex; justify-content: space-between; align-items: center; min-height: 48px; }
 .header-actions { display: flex; gap: 8px; position: relative; }
 .btn-exit { background: rgba(255,255,255,0.1); border: none; color: white; width: 34px; height: 34px; border-radius: 50%; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight:bold; }
 .date { margin-top: 8px; opacity: .75; font-size: 13px; }
 
 /* AYARLAR MENÜSÜ */
-.dropdown-menu { position: absolute; top: 40px; right: 40px; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); overflow: hidden; display: none; z-index: 100; min-width: 180px; }
+.dropdown-menu { position: absolute; top: 40px; right: 0; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); overflow: hidden; display: none; z-index: 100; min-width: 190px; }
 .dropdown-menu.active { display: block; }
 .dropdown-menu button { display: block; width: 100%; text-align: left; padding: 12px 15px; border: none; background: transparent; font-size: 14px; font-weight: 600; color: #0f172a; cursor: pointer; border-bottom: 1px solid #f1f5f9; }
 .dropdown-menu button:last-child { border-bottom: none; }
@@ -87,7 +93,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
 .content { padding: 18px; }
 .section-title { font-size: 18px; font-weight: 800; margin: 10px 0 14px; }
 
-/* SATIŞ KARTLARI YENİ DÜZEN */
+/* SATIŞ KARTLARI */
 .sale-card { background: white; border-radius: 18px; padding: 15px; margin-bottom: 12px; box-shadow: 0 4px 16px rgba(15,23,42,.05); border: 1px solid #e2e8f0; position: relative; }
 .delete-btn { position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; border: none; border-radius: 8px; background: #fee2e2; color: #dc2626; font-size: 20px; line-height: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10;}
 .sale-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
@@ -96,7 +102,6 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
 .small-label { display: block; font-size: 11px; color: #64748b; margin-bottom: 4px; font-weight:600;}
 .line-total { font-weight: 900; color: #0f172a; font-size: 16px; min-width: 85px; text-align: right; }
 
-/* Miktar & Birim Grubu (+ ve - ile birlikte) */
 .unit-qty-group { display: flex; align-items: center; border: 1px solid #e2e8f0; background: #f8fafc; border-radius: 10px; overflow: hidden; height: 43px; }
 .unit-select { border: none; background: transparent; border-right: 1px solid #e2e8f0; padding: 0 4px; font-weight: bold; color: #0f172a; outline: none; font-size: 12px; height: 100%; }
 .qty-btn { background: #e2e8f0; border: none; width: 32px; height: 100%; font-size: 18px; font-weight: bold; color: #0f172a; cursor: pointer; display: flex; align-items: center; justify-content: center; }
@@ -104,7 +109,6 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
 .qty-input { width: 100%; border: none; background: transparent; text-align: center; font-size: 15px; font-weight: 700; outline: none; padding: 0; -moz-appearance: textfield; }
 .qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
-/* Ödeme Tipi Butonları */
 .payment-group { display: flex; gap: 6px; flex: 1; }
 .pay-btn { flex: 1; padding: 10px 0; border: 1px solid #e2e8f0; background: #f8fafc; border-radius: 10px; font-size: 12px; font-weight: 700; color: #64748b; cursor: pointer; transition: 0.2s; }
 .pay-btn.active.nakit { background: #22c55e; color: white; border-color: #22c55e; }
@@ -141,12 +145,12 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
         <input type="password" id="modalInput" class="glass-input center" style="display:none; margin-bottom:20px;" placeholder="Şirket Şifresi" maxlength="6" inputmode="numeric">
         <div class="modal-buttons">
             <button class="btn-glass cancel" onclick="closeConfirm()" style="margin-bottom:0;">İptal</button>
-            <button class="btn-glass danger" onclick="executeConfirm()" style="margin-bottom:0;">Onayla</button>
+            <button class="btn-glass danger" style="background:#ef4444; color:white; border:none;" onclick="executeConfirm()" style="margin-bottom:0;">Onayla</button>
         </div>
     </div>
 </div>
 
-<!-- ŞİFRE/İSİM DEĞİŞTİRME PENCERESİ -->
+<!-- ŞİFRE/İSİM DEĞİŞTİRME VE SİLME PENCERESİ -->
 <div id="settingsModal" class="modal-overlay">
     <div class="glass-panel modal-panel active">
         <h2 id="settingsTitle">Ayarlar</h2>
@@ -155,10 +159,13 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
         <input type="text" id="setCompName" class="glass-input center" placeholder="Yeni Şirket Adı" autocomplete="off">
         <input type="password" id="setCompPin" class="glass-input center" placeholder="Yeni 6 Haneli Şifre" maxlength="6" inputmode="numeric" autocomplete="new-password">
         
-        <div class="modal-buttons">
+        <div class="modal-buttons" style="margin-bottom:15px;">
             <button class="btn-glass cancel" onclick="closeSettings()" style="margin-bottom:0;">İptal</button>
             <button class="btn-glass" onclick="saveSettings()" style="margin-bottom:0;">Kaydet</button>
         </div>
+        
+        <hr style="border-top: 1px solid rgba(255,255,255,0.1); border-bottom:none; margin-bottom:15px;">
+        <button class="btn-glass danger" onclick="requestDeleteActiveCompany()" style="margin-bottom:0; font-size:13px; padding:12px;">🗑️ Şirketi Tamamen Sil</button>
     </div>
 </div>
 
@@ -171,7 +178,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
             <span class="search-icon">🔍</span>
             <input type="text" id="searchInput" class="glass-input with-icon" placeholder="Şirket ara..." oninput="renderCompanyList()" autocomplete="off">
         </div>
-        <button class="btn-glass add-new" onclick="showPanel('panelAdd')">+ Şirket Ekle</button>
+        <button class="btn-glass add-new" onclick="showPanel('panelAdd')">+ Yeni Şirket Ekle</button>
         <div id="companyList" class="company-list"></div>
     </div>
 
@@ -197,7 +204,13 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
     <div class="app">
         <div class="header">
             <div class="header-top">
-                <h1 id="companyTitle">🏢 Şirket Adı</h1>
+                
+                <!-- BÜYÜYÜP KÜÇÜLEN EFEKTLİ ALAN -->
+                <div style="display:flex; flex-direction:column; justify-content:center; flex:1;">
+                    <div id="welcomeMessage" style="font-size:24px; font-weight:900; color:#22c55e; letter-spacing:1px; transition:all 0.6s cubic-bezier(0.4, 0, 0.2, 1); opacity:1; max-height:40px; margin-bottom:2px; overflow:hidden;">HOŞGELDİNİZ</div>
+                    <h1 id="companyTitle" style="margin:0; font-size:13px; font-weight:600; color:#94a3b8; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition:all 0.6s cubic-bezier(0.4, 0, 0.2, 1);">🏢 Şirket Adı</h1>
+                </div>
+                
                 <div class="header-actions">
                     <button class="btn-exit" onclick="toggleMenu(event)" title="Ayarlar">⋮</button>
                     <button class="btn-exit" onclick="logout()" title="Çıkış Yap">×</button>
@@ -226,7 +239,6 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
             <div id="salesPage">
                 <div class="section-title">Bugünkü Ürünler</div>
                 
-                <!-- FİLTRELEME KUTUSU -->
                 <input type="text" id="filterInput" class="glass-input dark" placeholder="🔍 Ürün Adıyla Ara veya Filtrele..." oninput="renderSales()" autocomplete="off">
                 
                 <div id="salesList"></div>
@@ -296,7 +308,7 @@ function closeConfirm() { confirmActionCallback = null; document.getElementById(
 function executeConfirm() {
     if (confirmRequiresPin) {
         const entered = document.getElementById("modalInput").value.trim();
-        if (entered !== confirmPinValue) return alert("Hatalı Şifre Girdiniz! Şirket silinemez.");
+        if (entered !== confirmPinValue) return alert("Hatalı Şifre Girdiniz! İşlem iptal edildi.");
     }
     if (confirmActionCallback) confirmActionCallback();
     closeConfirm();
@@ -344,7 +356,7 @@ function renderCompanyList() {
             activeCompany = c; document.getElementById("loginTitle").innerText = c.name;
             showPanel("panelLogin"); setTimeout(() => document.getElementById("loginPin").focus(), 100);
         };
-        div.innerHTML = `<span>${escapeHTML(c.name)}</span><button class="btn-del-comp" onclick="requestDeleteCompany('${c.id}', event, '${c.pin}')">-</button>`;
+        div.innerHTML = `<span>${escapeHTML(c.name)}</span><span class="arrow-icon">➔</span>`;
         list.appendChild(div);
     });
 }
@@ -355,15 +367,11 @@ function createNewCompany() {
     if (!name) return alert("Şirket adı boş olamaz!");
     if (!/^\d{6}$/.test(pin)) return alert("Şifre 6 haneli rakam olmalıdır!");
 
+    const exists = companies.find(c => c.name.toLowerCase() === name.toLowerCase());
+    if (exists) return alert("Bu isimde bir şirket zaten mevcut! Karışıklık olmaması için lütfen farklı bir ad seçin.");
+
     companies.push({ id: "comp_" + Date.now(), name: name, pin: pin, lastNameUpdate: 0 });
     saveCompanies(); renderCompanyList(); showPanel("panelList");
-}
-
-function requestDeleteCompany(id, event, pin) {
-    event.stopPropagation();
-    openConfirm("Şirketi Sil", "Bu şirketi silmek için 6 haneli şifreyi girmelisiniz.", () => {
-        companies = companies.filter(c => c.id !== id); saveCompanies(); renderCompanyList();
-    }, true, pin);
 }
 
 function verifyLogin() {
@@ -375,12 +383,11 @@ function verifyLogin() {
 function logout() {
     document.getElementById("appContainer").style.display = "none";
     document.getElementById("loginPage").style.display = "flex";
-    showPanel("panelList"); STORAGE_KEY = "";
+    showPanel("panelList"); STORAGE_KEY = ""; activeCompany = null;
 }
 
 loadCompanies();
 
-/* AYARLAR MENÜSÜ VE KISITLAMA İŞLEMLERİ */
 function toggleMenu(e) {
     e.stopPropagation();
     const menu = document.getElementById("settingsMenu");
@@ -407,6 +414,9 @@ function saveSettings() {
     if (!/^\d{6}$/.test(newPin)) return alert("Şifre 6 haneli rakam olmalıdır!");
 
     if (newName !== activeCompany.name) {
+        const exists = companies.find(c => c.name.toLowerCase() === newName.toLowerCase() && c.id !== activeCompany.id);
+        if (exists) return alert("Bu isimde bir şirket zaten mevcut! Lütfen farklı bir ad seçin.");
+
         if (activeCompany.lastNameUpdate && (now - activeCompany.lastNameUpdate) < THIRTY_DAYS) {
             alert("Uyarı: Şirket adını değiştirmek için 1 aylık sürenizin dolmasını beklemelisiniz. (Şifrenizi değiştirebilirsiniz)");
             return; 
@@ -426,16 +436,49 @@ function saveSettings() {
     alert("Bilgiler başarıyla güncellendi!");
 }
 
-/* SATIŞ İŞLEMLERİ */
+function requestDeleteActiveCompany() {
+    closeSettings();
+    openConfirm("Şirketi Tamamen Sil", "DİKKAT! Bu şirketi ve tüm satış verilerini kalıcı olarak silmek üzeresiniz. Onaylamak için şifrenizi girin.", () => {
+        companies = companies.filter(c => c.id !== activeCompany.id);
+        saveCompanies();
+        logout();
+    }, true, activeCompany.pin);
+}
+
 let isTyping = false; 
 
 function startApp(company) {
     STORAGE_KEY = "data_" + company.id;
     document.getElementById("loginPage").style.display = "none";
     document.getElementById("appContainer").style.display = "block";
-    document.getElementById("companyTitle").innerText = `🏢 ${company.name}`;
-    document.getElementById("filterInput").value = "";
     
+    // ANİMASYON ELEMENTLERİNİ HAZIRLA
+    const welcomeMsg = document.getElementById("welcomeMessage");
+    const compTitle = document.getElementById("companyTitle");
+    
+    compTitle.innerText = `🏢 ${company.name}`;
+    
+    // Başlangıç (Büyük Hoşgeldiniz, Küçük Şirket Adı)
+    welcomeMsg.style.opacity = "1";
+    welcomeMsg.style.maxHeight = "40px";
+    welcomeMsg.style.fontSize = "24px";
+    welcomeMsg.style.marginBottom = "2px";
+    
+    compTitle.style.fontSize = "13px";
+    compTitle.style.color = "#94a3b8"; // soluk gri
+    
+    // 2 saniye sonra (Hoşgeldiniz Kaybolur, Şirket Adı Büyür)
+    setTimeout(() => {
+        welcomeMsg.style.opacity = "0";
+        welcomeMsg.style.maxHeight = "0px";
+        welcomeMsg.style.fontSize = "0px";
+        welcomeMsg.style.marginBottom = "0px";
+        
+        compTitle.style.fontSize = "22px";
+        compTitle.style.color = "white"; // Tam beyaza dönerek belirginleşir
+    }, 2000);
+    
+    document.getElementById("filterInput").value = "";
     showDate(); renderSales();
     
     if (USE_FIREBASE && db) {
@@ -495,7 +538,6 @@ function updateSale(index, field, value) {
     window.typingTimer = setTimeout(() => { isTyping = false; }, 2000);
 }
 
-/* YENİ EKLENEN ARTI (+) VE EKSİ (-) BUTON FONKSİYONU */
 function changeQty(index, amount) {
     const sales = getTodaySales();
     let currentQty = Number(sales[index].quantity) || 0;
@@ -567,7 +609,6 @@ function renderSales() {
             const card = document.createElement("div");
             card.className = "sale-card";
             
-            /* BUTONLAR ARASINDAKİ BÖLÜME EKSİ (-) VE ARTI (+) BUTONLARI EKLENDİ */
             card.innerHTML = `
                 <button class="delete-btn" onclick="requestDeleteSale(${index})" title="Sil">×</button>
                 
