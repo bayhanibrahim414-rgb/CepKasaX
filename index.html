@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0f172a">
 
-<meta name="google-site-verification" content="OMRhTpHg1yEGezehS5HN6kFjUol8gSi-f4D9ghG8QGs" />
 <title>CepkasaX</title>
 <meta name="description" content="CepkasaX - İşletmeler için ücretsiz, anlık senkronize satış, ciro ve ürün takip uygulaması.">
 
@@ -15,51 +14,90 @@
 <!-- FIREBASE SDK -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<!-- HTML2PDF CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+:root {
+    --bg-main: #f1f5f9;
+    --bg-card: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --input-bg: #ffffff;
+    --draft-bg: #f8fafc;
+    --bottom-bg: rgba(255, 255, 255, 0.94);
+    --sales-btns-bg: rgba(241, 245, 249, 0.95);
+    --compact-bg: #f1f5f9;
+    --login-bg: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    --login-panel-bg: rgba(255, 255, 255, 0.85);
+    --login-panel-border: rgba(226, 232, 240, 0.8);
+    --login-text: #0f172a;
+    --login-subtext: rgba(15, 23, 42, 0.6);
+}
+
+body.dark-mode {
+    --bg-main: #090d16;
+    --bg-card: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --input-bg: #0f172a;
+    --draft-bg: #0f172a;
+    --bottom-bg: rgba(15, 23, 42, 0.94);
+    --sales-btns-bg: rgba(15, 23, 42, 0.95);
+    --compact-bg: #0f172a;
+    --login-bg: linear-gradient(135deg, #0f172a, #1e293b);
+    --login-panel-bg: rgba(255, 255, 255, 0.03);
+    --login-panel-border: rgba(255, 255, 255, 0.1);
+    --login-text: white;
+    --login-subtext: rgba(255, 255, 255, 0.6);
+}
+
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
 input, textarea, select { user-select: auto !important; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background: #f1f5f9; color: #0f172a; touch-action: manipulation; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background: var(--bg-main); color: var(--text-main); touch-action: manipulation; transition: background 0.3s, color 0.3s; }
 
 /* GİRİŞ EKRANI */
-#loginPage { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0f172a, #1e293b); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
-.glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); padding: 30px 25px; border-radius: 24px; width: 100%; max-width: 400px; text-align: center; color: white; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; }
+#loginPage { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--login-bg); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px; transition: background 0.3s; }
+.glass-panel { background: var(--login-panel-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--login-panel-border); padding: 30px 25px; border-radius: 24px; width: 100%; max-width: 400px; text-align: center; color: var(--login-text); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2); display: none; transition: background 0.3s, border 0.3s, color 0.3s; }
 .glass-panel.active { display: block; }
 .brand-title { font-size: 28px; font-weight: 900; color: #22c55e; margin-top: 0; margin-bottom: 5px; letter-spacing: 1px; }
-.brand-subtitle { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
+.brand-subtitle { font-size: 14px; color: var(--login-subtext); margin-bottom: 20px; }
 
 .search-wrapper { position: relative; margin-bottom: 15px; }
 .search-icon { position: absolute; left: 14px; top: 15px; font-size: 16px; color: #22c55e; font-weight:bold; }
-#searchInput { border: 1px solid rgba(34, 197, 94, 0.6); background: rgba(34, 197, 94, 0.1); color: white; transition: 0.3s; }
-#searchInput::placeholder { color: rgba(255, 255, 255, 0.7); }
+#searchInput { border: 1px solid rgba(34, 197, 94, 0.6); background: rgba(34, 197, 94, 0.1); color: var(--login-text); transition: 0.3s; }
+#searchInput::placeholder { color: var(--login-subtext); }
 #searchInput:focus { border-color: #22c55e; background: rgba(34, 197, 94, 0.2); box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
 
-.glass-input { width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 14px; border-radius: 12px; font-size: 15px; outline: none; transition: all 0.3s ease; }
+.glass-input { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 14px; border-radius: 12px; font-size: 15px; outline: none; transition: all 0.3s ease; }
+#loginPage .glass-input { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--login-panel-border); color: var(--login-text); }
+body.light-mode #loginPage .glass-input { background: rgba(0, 0, 0, 0.04); border: 1px solid rgba(0, 0, 0, 0.1); color: var(--login-text); }
 .glass-input.with-icon { padding-left: 42px; }
-.glass-input::placeholder { color: rgba(255, 255, 255, 0.4); }
-.glass-input:focus { border-color: #22c55e; background: rgba(255, 255, 255, 0.1); }
+.glass-input::placeholder { color: var(--login-subtext); }
+.glass-input:focus { border-color: #22c55e; background: rgba(255, 255, 255, 0.15); }
 .glass-input.center { text-align: center; margin-bottom: 15px; padding-left: 14px;}
-.glass-input.dark { background: white; color: #0f172a; border: 1px solid #e2e8f0; margin-bottom: 10px; }
-.glass-input.dark::placeholder { color: #94a3b8; }
+.glass-input.dark { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border-color); margin-bottom: 10px; }
+.glass-input.dark::placeholder { color: var(--text-muted); }
 
 .btn-glass { background: #22c55e; color: white; border: none; padding: 14px; width: 100%; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.3); margin-bottom: 15px; transition: 0.2s; }
 .btn-glass:active { transform: scale(0.97); }
-.btn-glass.add-new { background: rgba(255,255,255,0.1); border: 1px dashed rgba(255,255,255,0.3); box-shadow: none; margin-bottom: 20px; }
-.btn-glass.cancel { background: transparent; border: 1px solid rgba(255,255,255,0.2); box-shadow: none; }
+.btn-glass.add-new { background: rgba(34, 197, 94, 0.15); border: 1px dashed rgba(34, 197, 94, 0.4); color: #22c55e; box-shadow: none; margin-bottom: 20px; }
+.btn-glass.cancel { background: transparent; border: 1px solid var(--login-panel-border); color: var(--login-text); box-shadow: none; }
 .btn-glass.danger { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.5); color: #fca5a5; box-shadow: none; }
 
 .company-list { max-height: 220px; overflow-y: auto; text-align: left; }
-.company-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.08); padding: 14px 15px; border-radius: 12px; margin-bottom: 8px; cursor: pointer; border: 1px solid transparent; transition: 0.2s;}
-.company-item:hover { border-color: rgba(34, 197, 94, 0.4); background: rgba(255,255,255,0.12); }
-.company-item span { flex-grow: 1; font-weight: 600; font-size:16px; }
+.company-item { display: flex; justify-content: space-between; align-items: center; background: rgba(128, 128, 128, 0.08); padding: 14px 15px; border-radius: 12px; margin-bottom: 8px; cursor: pointer; border: 1px solid transparent; transition: 0.2s;}
+.company-item:hover { border-color: rgba(34, 197, 94, 0.4); background: rgba(128, 128, 128, 0.15); }
+.company-item span { flex-grow: 1; font-weight: 600; font-size:16px; color: var(--login-text); }
 .arrow-icon { color: #22c55e; font-size: 18px; font-weight: bold; }
 
 /* MODAL YAPI */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 100000; padding: 20px; }
 .modal-overlay.active { display: flex; }
 .modal-panel { padding: 30px 25px; margin: 0; position: relative; }
-.modal-panel p { color: #cbd5e1; font-size: 15px; margin-bottom: 15px; line-height: 1.5; }
-.modal-buttons { display: flex; gap: 12px; }
+.modal-panel p { color: var(--text-muted); font-size: 15px; margin-bottom: 15px; line-height: 1.5; }
 
 /* ANA UYGULAMA */
 #appContainer { display: none; }
@@ -70,10 +108,10 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
 .btn-exit { background: rgba(255,255,255,0.1); border: none; color: white; width: 34px; height: 34px; border-radius: 50%; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight:bold; }
 .date { margin-top: 8px; opacity: .75; font-size: 13px; }
 
-.dropdown-menu { position: absolute; top: 40px; right: 0; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); overflow: hidden; display: none; z-index: 100; min-width: 190px; }
+.dropdown-menu { position: absolute; top: 40px; right: 0; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); overflow: hidden; display: none; z-index: 100; min-width: 210px; }
 .dropdown-menu.active { display: block; }
-.dropdown-menu button { display: block; width: 100%; text-align: left; padding: 12px 15px; border: none; background: transparent; font-size: 14px; font-weight: 600; color: #0f172a; cursor: pointer; border-bottom: 1px solid #f1f5f9; }
-.dropdown-menu button:hover { background: #f8fafc; }
+.dropdown-menu button { display: block; width: 100%; text-align: left; padding: 12px 15px; border: none; background: transparent; font-size: 14px; font-weight: 600; color: var(--text-main); cursor: pointer; border-bottom: 1px solid var(--border-color); }
+.dropdown-menu button:hover { background: var(--draft-bg); }
 
 /* CİRO KIRILIM KARTI */
 .total-card { background: #22c55e; color: white; margin-top: 20px; padding: 15px 18px; border-radius: 20px; }
@@ -86,31 +124,31 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
 .bk-veresiye span { color: #fecaca; }
 
 .content { padding: 18px; }
-.section-title { font-size: 18px; font-weight: 800; margin: 10px 0 14px; }
+.section-title { font-size: 18px; font-weight: 800; margin: 10px 0 14px; color: var(--text-main); }
 
 /* YENİ ÜRÜN KARTLARI */
-.product-card { background: white; border-radius: 18px; padding: 16px; margin-bottom: 15px; box-shadow: 0 4px 16px rgba(15,23,42,.05); border: 1px solid #e2e8f0; position: relative; }
-.prod-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px dashed #cbd5e1; padding-bottom: 10px; }
-.prod-name-input { width: 100%; border: none; font-size: 18px; font-weight: 900; color: #0f172a; outline: none; background: transparent; }
-.prod-name-input::placeholder { color: #94a3b8; font-weight: 600; }
+.product-card { background: var(--bg-card); border-radius: 18px; padding: 16px; margin-bottom: 15px; box-shadow: 0 4px 16px rgba(15,23,42,.05); border: 1px solid var(--border-color); position: relative; transition: background 0.3s, border 0.3s; }
+.prod-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px dashed var(--border-color); padding-bottom: 10px; }
+.prod-name-input { width: 100%; border: none; font-size: 18px; font-weight: 900; color: var(--text-main); outline: none; background: transparent; }
+.prod-name-input::placeholder { color: var(--text-muted); font-weight: 600; }
 .delete-btn { width: 28px; height: 28px; border: none; border-radius: 8px; background: #fee2e2; color: #dc2626; font-size: 18px; line-height: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-left: 10px; flex-shrink: 0;}
 
 /* TASLAK FORM */
-.draft-area { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 14px; margin-bottom: 5px; }
+.draft-area { background: var(--draft-bg); border: 1px solid var(--border-color); padding: 12px; border-radius: 14px; margin-bottom: 5px; }
 .sale-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
-.input { width: 100%; border: 1px solid #cbd5e1; background: white; padding: 12px; border-radius: 10px; font-size: 14px; outline: none; transition:0.2s; }
+.input { width: 100%; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-main); padding: 12px; border-radius: 10px; font-size: 14px; outline: none; transition:0.2s; }
 .input:focus { border-color: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,0.1); }
-.small-label { display: block; font-size: 11px; color: #64748b; margin-bottom: 4px; font-weight:700;}
-.line-total { font-weight: 900; color: #0f172a; font-size: 16px; text-align: right; }
+.small-label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight:700;}
+.line-total { font-weight: 900; color: var(--text-main); font-size: 16px; text-align: right; }
 
-.unit-qty-group { display: flex; align-items: center; border: 1px solid #cbd5e1; background: white; border-radius: 10px; overflow: hidden; height: 43px; }
-.unit-select { border: none; background: transparent; border-right: 1px solid #cbd5e1; padding: 0 4px; font-weight: bold; color: #0f172a; outline: none; font-size: 12px; height: 100%; }
-.qty-btn { background: #f1f5f9; border: none; width: 32px; height: 100%; font-size: 18px; font-weight: bold; color: #0f172a; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.qty-btn:active { background: #e2e8f0; }
-.qty-input { width: 100%; border: none; background: transparent; text-align: center; font-size: 15px; font-weight: 700; outline: none; padding: 0; -moz-appearance: textfield; }
+.unit-qty-group { display: flex; align-items: center; border: 1px solid var(--border-color); background: var(--input-bg); border-radius: 10px; overflow: hidden; height: 43px; }
+.unit-select { border: none; background: transparent; border-right: 1px solid var(--border-color); padding: 0 4px; font-weight: bold; color: var(--text-main); outline: none; font-size: 12px; height: 100%; }
+.qty-btn { background: var(--compact-bg); border: none; width: 32px; height: 100%; font-size: 18px; font-weight: bold; color: var(--text-main); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.qty-btn:active { opacity: 0.7; }
+.qty-input { width: 100%; border: none; background: transparent; color: var(--text-main); text-align: center; font-size: 15px; font-weight: 700; outline: none; padding: 0; -moz-appearance: textfield; }
 
 .payment-group { display: flex; gap: 6px; flex: 1; }
-.pay-btn { flex: 1; padding: 10px 0; border: 1px solid #cbd5e1; background: white; border-radius: 10px; font-size: 12px; font-weight: 700; color: #64748b; cursor: pointer; transition: 0.2s; }
+.pay-btn { flex: 1; padding: 10px 0; border: 1px solid var(--border-color); background: var(--input-bg); border-radius: 10px; font-size: 12px; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
 .pay-btn.active.nakit { background: #22c55e; color: white; border-color: #22c55e; }
 .pay-btn.active.kart { background: #3b82f6; color: white; border-color: #3b82f6; }
 .pay-btn.active.veresiye { background: #ef4444; color: white; border-color: #ef4444; }
@@ -119,48 +157,48 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
 .btn-save-tx:active { transform: scale(0.98); background: #1e293b; }
 
 /* KOMPAKT SATIŞ LİSTESİ */
-.tx-list-container { margin-top:15px; border-top:2px dashed #cbd5e1; padding-top:12px; }
+.tx-list-container { margin-top:15px; border-top:2px dashed var(--border-color); padding-top:12px; }
 .tx-list { display: flex; flex-direction: column; gap: 6px; max-height: 160px; overflow-y: auto; padding-right: 4px; }
-.compact-tx { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 10px 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; }
+.compact-tx { background: var(--compact-bg); border: 1px solid var(--border-color); padding: 10px 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; }
 .compact-tx:active { transform: scale(0.98); }
 
 .btn { border: none; border-radius: 12px; padding: 14px; width: 100%; font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 8px;}
 .btn-add { background: #0f172a; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2);}
-.btn-history { background: white; color: #0f172a; border: 1px solid #e2e8f0; }
+.btn-history { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); }
 .btn-excel { background: #16a34a; color: white; }
 .btn-pdf { background: #dc2626; color: white; }
 .btn-small-pdf { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; display:flex; align-items:center; gap:4px; }
-.btn-details { width: 100%; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px; margin-top: 10px; border-radius: 8px; font-weight: bold; color: #0f172a; cursor: pointer; }
+.btn-details { width: 100%; background: var(--compact-bg); border: 1px solid var(--border-color); padding: 8px; margin-top: 10px; border-radius: 8px; font-weight: bold; color: var(--text-main); cursor: pointer; }
 
-/* SABİT BUGÜNE DÖN BUTONU */
+/* GEÇMİŞ EKRANI */
 .history { display: none; }
 .history.active { display: block; }
-.history-card { background: white; padding: 16px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #e2e8f0; }
-.history-date { font-weight: 800; font-size: 15px; }
+.history-card { background: var(--bg-card); padding: 16px; border-radius: 16px; margin-bottom: 12px; border: 1px solid var(--border-color); }
+.history-date { font-weight: 800; font-size: 15px; color: var(--text-main); }
 .history-total { color: #16a34a; font-size: 20px; font-weight: 800; margin-top: 6px; }
-.empty { text-align: center; color: #64748b; padding: 30px 10px; font-size: 14px;}
+.empty { text-align: center; color: var(--text-muted); padding: 30px 10px; font-size: 14px;}
 
 .fixed-return-btn { position: fixed; bottom: 85px; left: 0; width: 100%; padding: 10px 18px; display: none; justify-content: center; z-index: 95; pointer-events: none; }
 .history.active .fixed-return-btn { display: flex; }
 
-/* SABİT SATIŞ BUTONLARI ALANI */
-.fixed-sales-btns { position: fixed; bottom: 58px; left: 0; width: 100%; padding: 12px 18px; background: rgba(241, 245, 249, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 85; display: flex; justify-content: center; border-top: 1px solid #cbd5e1; box-shadow: 0 -4px 15px rgba(0,0,0,0.03); }
+/* SABİT BUTONLAR */
+.fixed-sales-btns { position: fixed; bottom: 58px; left: 0; width: 100%; padding: 12px 18px; background: var(--sales-btns-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 85; display: flex; justify-content: center; border-top: 1px solid var(--border-color); box-shadow: 0 -4px 15px rgba(0,0,0,0.03); }
 .fixed-sales-btns-inner { max-width: 650px; width: 100%; display: flex; flex-direction: column; }
 
-.bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; padding: 12px 18px 24px; background: rgba(255,255,255,.94); backdrop-filter: blur(15px); border-top: 1px solid #e2e8f0; z-index:90;}
+.bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; padding: 12px 18px 24px; background: var(--bottom-bg); backdrop-filter: blur(15px); border-top: 1px solid var(--border-color); z-index:90;}
 .bottom-content { max-width: 650px; margin: auto; display: flex; justify-content: space-between; align-items: center; }
-.bottom-label { font-size: 13px; color: #64748b; font-weight:bold; }
+.bottom-label { font-size: 13px; color: var(--text-muted); font-weight:bold; }
 .bottom-total { font-size: 22px; font-weight: 900; color: #16a34a; }
 
-/* PDF ÖNİZLEME MODALI VE HİZALAMA */
-#pdfPreviewModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #334155; z-index: 200000; display: none; flex-direction: column; }
+/* PDF ÖNİZLEME MODALI */
+#pdfPreviewModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.9); z-index: 200000; display: none; flex-direction: column; }
 #pdfPreviewModal.active { display: flex; }
 .pdf-topbar { background: #0f172a; color: white; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); flex-shrink: 0; }
 .pdf-scroll-area { flex: 1; overflow-y: auto; overflow-x: auto; padding: 20px; -webkit-overflow-scrolling: touch; display: flex; justify-content: center; align-items: flex-start; }
 
-/* PDF RAPOR Kapsayıcısı (Tam ekran, sola/başa hizalı ve düzgün görünüm) */
 #pdf-container-element {
     background: white;
+    color: #0f172a;
     width: 100%;
     max-width: 800px;
     padding: 30px;
@@ -168,30 +206,19 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     box-sizing: border-box;
-}
-
-/* YAZDIRMA (PRINT) İÇİN SAYFA KESİLMELERİ VE GİZLEME */
-@media print {
-    body * { visibility: hidden; }
-    #pdfPreviewModal, #pdfPreviewModal * { visibility: visible; }
-    #pdfPreviewModal { position: absolute; left: 0; top: 0; width: 100%; height: auto; background: white; }
-    .pdf-topbar { display: none !important; }
-    .pdf-scroll-area { padding: 0 !important; overflow: visible !important; display: block !important; }
-    #pdf-container-element { box-shadow: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; }
-    table { page-break-inside: auto; width: 100% !important; }
-    tr { page-break-inside: avoid; page-break-after: auto; }
+    text-align: left;
 }
 </style>
 </head>
 
-<body>
+<body class="light-mode">
 
-<!-- PDF ÖNİZLEME VE KAYDETME EKRANI -->
+<!-- PDF ÖNİZLEME VE DOSYA İNDİRME EKRANI -->
 <div id="pdfPreviewModal">
     <div class="pdf-topbar">
         <button onclick="closePdfModal()" style="background:rgba(255,255,255,0.15); color:white; border:none; padding:10px 14px; border-radius:10px; font-weight:bold; cursor:pointer;">← Kapat</button>
         <div style="display:flex; gap:8px;">
-            <button onclick="triggerSystemPrint()" style="background:#22c55e; color:white; border:none; padding:10px 16px; border-radius:10px; font-weight:bold; cursor:pointer; font-size:14px;">📥 PDF İndir / Yazdır</button>
+            <button onclick="downloadPDFFile()" style="background:#22c55e; color:white; border:none; padding:10px 16px; border-radius:10px; font-weight:bold; cursor:pointer; font-size:14px;">📥 Bilgisayara PDF İndir</button>
         </div>
     </div>
     <div class="pdf-scroll-area">
@@ -205,37 +232,46 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
         <h2 id="modalTitle">Emin misin?</h2>
         <p id="modalDesc">Bu işlemi geri alamazsınız.</p>
         <input type="password" id="modalInput" class="glass-input center" style="display:none; margin-bottom:20px;" placeholder="Şirket Şifresi" maxlength="6" inputmode="numeric">
-        <div class="modal-buttons">
+        <div class="modal-buttons" style="display: flex; gap: 12px;">
             <button class="btn-glass cancel" onclick="closeConfirm()" style="margin-bottom:0;">İptal</button>
-            <button class="btn-glass danger" style="background:#ef4444; color:white; border:none;" onclick="executeConfirm()" style="margin-bottom:0;">Onayla</button>
+            <button class="btn-glass danger" style="background:#ef4444; color:white; border:none; margin-bottom:0;" onclick="executeConfirm()">Onayla</button>
         </div>
     </div>
 </div>
 
 <!-- SATIŞ DETAYI VE SİLME PENCERESİ -->
 <div id="txDetailModal" class="modal-overlay" style="z-index: 100000;">
-    <div class="glass-panel modal-panel active" style="background: white; color: #0f172a; text-align:left; border-radius:24px;">
-        <h2 id="txDetailTitle" style="color:#0f172a; margin-top:0; border-bottom:2px dashed #e2e8f0; padding-bottom:10px;">Satış Detayı</h2>
+    <div class="glass-panel modal-panel active" style="background: var(--bg-card); color: var(--text-main); text-align:left; border-radius:24px; border:1px solid var(--border-color);">
+        <h2 id="txDetailTitle" style="color:var(--text-main); margin-top:0; border-bottom:2px dashed var(--border-color); padding-bottom:10px;">Satış Detayı</h2>
         <div id="txDetailContent" style="margin-bottom:20px; line-height:1.6; font-size:14px; font-weight:600;"></div>
-        <div class="modal-buttons" style="flex-direction:column; gap:8px;">
+        <div class="modal-buttons" style="display:flex; flex-direction:column; gap:8px;">
             <button class="btn-glass danger" style="background:#ef4444; color:white; border:none; margin-bottom:0;" onclick="deleteActiveTx()">🗑️ Bu Satışı Sil</button>
-            <button class="btn-glass cancel" style="color:#0f172a; border: 1px solid #cbd5e1; margin-bottom:0;" onclick="closeTxModal()">Kapat</button>
+            <button class="btn-glass cancel" style="color:var(--text-main); border: 1px solid var(--border-color); margin-bottom:0;" onclick="closeTxModal()">Kapat</button>
         </div>
     </div>
 </div>
 
-<!-- ŞİFRE/İSİM DEĞİŞTİRME PENCERESİ -->
+<!-- ŞİFRE/İSİM/TEMA AYARLARI PENCERESİ -->
 <div id="settingsModal" class="modal-overlay">
     <div class="glass-panel modal-panel active">
         <h2 id="settingsTitle">Ayarlar</h2>
-        <p style="font-size:12px; color:#94a3b8; margin-top:-10px;">Şirket adı ayda 1 kez değişir.<br>Şifrenizi istediğiniz zaman değiştirebilirsiniz.</p>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:-10px;">Şirket adı ayda 1 kez değişir.<br>Şifrenizi ve tema tercihinizi ayarlayabilirsiniz.</p>
         <input type="text" id="setCompName" class="glass-input center" placeholder="Yeni Şirket Adı" autocomplete="off">
         <input type="password" id="setCompPin" class="glass-input center" placeholder="Yeni 6 Haneli Şifre" maxlength="6" inputmode="numeric" autocomplete="new-password">
-        <div class="modal-buttons" style="margin-bottom:15px;">
+        
+        <div style="margin-bottom:15px; text-align:left;">
+            <span style="font-size:12px; color:var(--text-muted); font-weight:bold; display:block; margin-bottom:6px;">Uygulama Teması</span>
+            <select id="themeSelector" class="glass-input center" style="padding:10px; margin-bottom:0;">
+                <option value="light">☀️ Aydınlık (Light Mode)</option>
+                <option value="dark">🌙 Karanlık (Dark Mode)</option>
+            </select>
+        </div>
+
+        <div class="modal-buttons" style="display:flex; gap:12px; margin-bottom:15px;">
             <button class="btn-glass cancel" onclick="closeSettings()" style="margin-bottom:0;">İptal</button>
             <button class="btn-glass" onclick="saveSettings()" style="margin-bottom:0;">Kaydet</button>
         </div>
-        <hr style="border-top: 1px solid rgba(255,255,255,0.1); border-bottom:none; margin-bottom:15px;">
+        <hr style="border-top: 1px solid var(--border-color); border-bottom:none; margin-bottom:15px;">
         <button class="btn-glass danger" onclick="requestDeleteActiveCompany()" style="margin-bottom:0; font-size:13px; padding:12px;">🗑️ Şirketi Tamamen Sil</button>
     </div>
 </div>
@@ -261,7 +297,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
         <button class="btn-glass cancel" onclick="showPanel('panelList')">İptal</button>
     </div>
     <div class="glass-panel" id="panelLogin">
-        <h2 id="loginTitle">Şifre Girin</h2>
+        <h2 id="loginTitle" style="color:var(--login-text);">Şifre Girin</h2>
         <input type="password" id="loginPin" class="glass-input center" placeholder="6 Haneli Şifre" maxlength="6" inputmode="numeric" autocomplete="current-password" onkeydown="if(event.key === 'Enter') verifyLogin()">
         <button class="btn-glass" onclick="verifyLogin()">Giriş Yap</button>
         <button class="btn-glass cancel" onclick="showPanel('panelList')">İptal</button>
@@ -278,10 +314,11 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
                     <h1 id="companyTitle" style="margin:0; font-size:13px; font-weight:600; color:#94a3b8; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition:all 0.6s cubic-bezier(0.4, 0, 0.2, 1);">🏢 Şirket Adı</h1>
                 </div>
                 <div class="header-actions">
+                    <button class="btn-exit" onclick="toggleTheme()" title="Tema Değiştir">🌓</button>
                     <button class="btn-exit" onclick="toggleMenu(event)" title="Ayarlar">⋮</button>
                     <button class="btn-exit" onclick="confirmLogout()" title="Çıkış Yap">×</button>
                     <div id="settingsMenu" class="dropdown-menu">
-                        <button onclick="openSettingsModal()">Şifre / Şirket Adı Ayarları</button>
+                        <button onclick="openSettingsModal()">⚙️ Ayarlar & Tema</button>
                     </div>
                 </div>
             </div>
@@ -319,7 +356,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
             <div id="historyPage" class="history">
                 <div style="padding-bottom: 90px;">
                     <div class="section-title">📅 Geçmiş Raporlar ve Dökümler</div>
-                    <div style="background: white; padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #e2e8f0;">
+                    <div style="background: var(--bg-card); padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid var(--border-color);">
                         <div style="font-weight: 800; margin-bottom: 10px; font-size: 15px;">📊 Tarih Aralığı Seç ve PDF Al</div>
                         <div style="display:flex; gap:10px; margin-bottom:12px;">
                             <div style="flex:1;">
@@ -331,7 +368,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
                                 <input type="date" id="repEnd" class="input" style="padding:10px; font-size:13px;">
                             </div>
                         </div>
-                        <button class="btn btn-pdf" onclick="exportRangePDF()" style="margin-bottom:10px;">🖨️ Seçili Aralığı PDF Yap</button>
+                        <button class="btn btn-pdf" onclick="exportRangePDF()" style="margin-bottom:10px;">📥 Seçili Aralığı PDF İndir</button>
                         <button class="btn btn-excel" onclick="exportReport('excel', null, null)">📥 Tüm Veriyi Excel Yap</button>
                     </div>
                     <div id="historyList"></div>
@@ -352,6 +389,30 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
 </div>
 
 <script>
+// TEMA YÖNETİMİ
+function initTheme() {
+    const savedTheme = localStorage.getItem("cepkasax_theme") || "light";
+    setTheme(savedTheme);
+}
+
+function setTheme(theme) {
+    if (theme === "dark") {
+        document.body.classList.add("dark-mode");
+        document.body.classList.remove("light-mode");
+    } else {
+        document.body.classList.remove("dark-mode");
+        document.body.classList.add("light-mode");
+    }
+    localStorage.setItem("cepkasax_theme", theme);
+}
+
+function toggleTheme() {
+    const current = localStorage.getItem("cepkasax_theme") || "light";
+    setTheme(current === "light" ? "dark" : "light");
+}
+
+initTheme();
+
 const USE_FIREBASE = true; 
 const FIREBASE_CONFIG = {
     apiKey: "AIzaSyBBMA96J2T2sx2v5cWg4VltVGZugqsPkrA",
@@ -429,7 +490,7 @@ function renderCompanyList() {
     const query = document.getElementById("searchInput").value.toLowerCase();
     list.innerHTML = "";
     const filtered = companies.filter(c => c && c.name && c.name.toLowerCase().includes(query));
-    if (filtered.length === 0) return list.innerHTML = `<div style="text-align:center; color:#94a3b8; margin-top:10px;">Henüz şirket yok.</div>`;
+    if (filtered.length === 0) return list.innerHTML = `<div style="text-align:center; color:var(--login-subtext); margin-top:10px;">Henüz şirket yok.</div>`;
 
     filtered.forEach(c => {
         const div = document.createElement("div"); div.className = "company-item";
@@ -483,6 +544,7 @@ document.addEventListener("click", () => {
 function openSettingsModal() {
     document.getElementById("setCompName").value = activeCompany.name;
     document.getElementById("setCompPin").value = activeCompany.pin;
+    document.getElementById("themeSelector").value = localStorage.getItem("cepkasax_theme") || "light";
     document.getElementById("settingsModal").classList.add("active");
 }
 function closeSettings() { document.getElementById("settingsModal").classList.remove("active"); }
@@ -492,6 +554,7 @@ function saveSettings() {
     const now = Date.now();
     const newName = document.getElementById("setCompName").value.trim();
     const newPin = document.getElementById("setCompPin").value.trim();
+    const selectedTheme = document.getElementById("themeSelector").value;
     
     if (!newName) return alert("Şirket adı boş olamaz!");
     if (!/^\d{6}$/.test(newPin)) return alert("Şifre 6 haneli rakam olmalıdır!");
@@ -512,6 +575,7 @@ function saveSettings() {
     const idx = companies.findIndex(c => c.id === activeCompany.id);
     if(idx > -1) companies[idx] = activeCompany;
     saveCompanies();
+    setTheme(selectedTheme);
     document.getElementById("companyTitle").innerText = `🏢 ${activeCompany.name}`;
     closeSettings();
     alert("Bilgiler başarıyla güncellendi!");
@@ -742,20 +806,20 @@ function openTxDetails(pIndex, tIndex) {
     
     document.getElementById("txDetailTitle").innerText = prod.name;
     document.getElementById("txDetailContent").innerHTML = `
-        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0; padding-bottom:8px; margin-bottom:8px;">
-            <span style="color:#64748b;">Müşteri:</span> <span>${tx.customer ? escapeHTML(tx.customer) : '<span style="font-style:italic; color:#94a3b8;">Belirtilmedi</span>'}</span>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-color); padding-bottom:8px; margin-bottom:8px;">
+            <span style="color:var(--text-muted);">Müşteri:</span> <span>${tx.customer ? escapeHTML(tx.customer) : '<span style="font-style:italic; color:var(--text-muted);">Belirtilmedi</span>'}</span>
         </div>
-        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0; padding-bottom:8px; margin-bottom:8px;">
-            <span style="color:#64748b;">Miktar:</span> <span>${tx.quantity} ${tx.unit}</span>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-color); padding-bottom:8px; margin-bottom:8px;">
+            <span style="color:var(--text-muted);">Miktar:</span> <span>${tx.quantity} ${tx.unit}</span>
         </div>
-        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0; padding-bottom:8px; margin-bottom:8px;">
-            <span style="color:#64748b;">Birim Fiyat:</span> <span>${money(tx.price)}</span>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-color); padding-bottom:8px; margin-bottom:8px;">
+            <span style="color:var(--text-muted);">Birim Fiyat:</span> <span>${money(tx.price)}</span>
         </div>
-        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0; padding-bottom:8px; margin-bottom:8px;">
-            <span style="color:#64748b;">Nakliye:</span> <span>${tx.shipping ? money(tx.shipping) : 'Yok'}</span>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-color); padding-bottom:8px; margin-bottom:8px;">
+            <span style="color:var(--text-muted);">Nakliye:</span> <span>${tx.shipping ? money(tx.shipping) : 'Yok'}</span>
         </div>
-        <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #cbd5e1; padding-bottom:8px; margin-bottom:10px;">
-            <span style="color:#64748b;">Ödeme Tipi:</span> <span style="text-transform:capitalize;">${tx.paymentMethod}</span>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--border-color); padding-bottom:8px; margin-bottom:10px;">
+            <span style="color:var(--text-muted);">Ödeme Tipi:</span> <span style="text-transform:capitalize;">${tx.paymentMethod}</span>
         </div>
         <div style="display:flex; justify-content:space-between; font-size:18px; color:#16a34a; font-weight:900;">
             <span>Toplam Tutar:</span> <span>${money((tx.price * tx.quantity) + Number(tx.shipping))}</span>
@@ -887,9 +951,9 @@ function renderSales() {
                         </div>
                     </div>
 
-                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed #cbd5e1; padding-top:10px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--border-color); padding-top:10px;">
                         <div style="display:flex; align-items:center; gap:8px;">
-                            <span style="font-size:12px; font-weight:700; color:#64748b;">+ Nakliye:</span>
+                            <span style="font-size:12px; font-weight:700; color:var(--text-muted);">+ Nakliye:</span>
                             <input class="input" style="width:75px; padding:8px 10px; font-size:13px;" type="number" placeholder="₺0" value="${draft.shipping || ''}" oninput="updateDraft(${pIndex}, 'shipping', this.value)">
                         </div>
                         <div class="line-total" id="draft-total-${pIndex}">${money(draftTotal)}</div>
@@ -900,19 +964,19 @@ function renderSales() {
 
                 ${txs.length > 0 ? `
                 <div class="tx-list-container">
-                    <div style="font-size:11px; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Kaydedilen Satışlar (${txs.length})</div>
+                    <div style="font-size:11px; font-weight:800; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase;">Kaydedilen Satışlar (${txs.length})</div>
                     <div class="tx-list">
                         ${txs.map((tx, tIndex) => `
                             <div class="compact-tx" onclick="openTxDetails(${pIndex}, ${tIndex})">
                                 <div style="display:flex; align-items:center; gap:6px; overflow:hidden;">
                                     <div style="width:8px; height:8px; border-radius:50%; background:#22c55e; flex-shrink:0;"></div>
-                                    <span style="font-weight:700; font-size:13px; color:#0f172a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                                        ${tx.customer ? escapeHTML(tx.customer) : '<span style="font-style:italic; color:#94a3b8;">Müşterisiz</span>'}
+                                    <span style="font-weight:700; font-size:13px; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                        ${tx.customer ? escapeHTML(tx.customer) : '<span style="font-style:italic; color:var(--text-muted);">Müşterisiz</span>'}
                                     </span>
                                 </div>
                                 <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
-                                    <span style="font-size:11px; font-weight:700; color:#64748b;">${tx.quantity} ${tx.unit}</span>
-                                    <span style="font-weight:900; font-size:13px; color:#0f172a;">${money((Number(tx.price)*Number(tx.quantity)) + Number(tx.shipping))}</span>
+                                    <span style="font-size:11px; font-weight:700; color:var(--text-muted);">${tx.quantity} ${tx.unit}</span>
+                                    <span style="font-weight:900; font-size:13px; color:var(--text-main);">${money((Number(tx.price)*Number(tx.quantity)) + Number(tx.shipping))}</span>
                                 </div>
                             </div>
                         `).join('')}
@@ -974,10 +1038,10 @@ function renderHistory() {
                 const t = (Number(tx.price)||0)*(Number(tx.quantity)||0) + (Number(tx.shipping)||0);
                 dTotal += t;
                 txCount++;
-                let custInfo = tx.customer ? `<span style="color:#64748b; font-size:11px;">(${escapeHTML(tx.customer)})</span>` : '';
+                let custInfo = tx.customer ? `<span style="color:var(--text-muted); font-size:11px;">(${escapeHTML(tx.customer)})</span>` : '';
                 let shipInfo = tx.shipping ? `<span style="color:#f59e0b; font-size:11px;"> +₺${tx.shipping} Nak.</span>` : '';
-                detailsHtml += `<div style="border-bottom:1px solid #f1f5f9; padding:8px 0; display:flex; justify-content:space-between; align-items:center;">
-                    <div style="line-height:1.2;"><b>${escapeHTML(p.name||"İsimsiz Ürün")}</b> ${custInfo} <br> <span style="font-size:11px; color:#64748b;">${tx.quantity} ${tx.unit} ${shipInfo}</span></div>
+                detailsHtml += `<div style="border-bottom:1px solid var(--border-color); padding:8px 0; display:flex; justify-content:space-between; align-items:center;">
+                    <div style="line-height:1.2;"><b>${escapeHTML(p.name||"İsimsiz Ürün")}</b> ${custInfo} <br> <span style="font-size:11px; color:var(--text-muted);">${tx.quantity} ${tx.unit} ${shipInfo}</span></div>
                     <div style="font-weight:700;">${money(t)}</div>
                 </div>`;
             });
@@ -990,10 +1054,10 @@ function renderHistory() {
                 <button class="btn-small-pdf" onclick="generatePDF('${day}', '${day}')">📄 PDF Raporu</button>
             </div>
             <div class="history-total">${money(dTotal)}</div>
-            <div style="margin-top:4px; color:#64748b; font-size:12px; font-weight:600;">Toplam ${txCount} Satış İşlemi</div>
+            <div style="margin-top:4px; color:var(--text-muted); font-size:12px; font-weight:600;">Toplam ${txCount} Satış İşlemi</div>
             <button class="btn-details" onclick="toggleDayDetails('${day}')">Satış Detaylarını Gör ⬇</button>
-            <div id="det_${day}" style="display:none; margin-top:10px; font-size:13px; background:#f8fafc; padding:10px; border-radius:8px;">
-                ${detailsHtml || '<div style="color:#94a3b8;">Kayıt yok.</div>'}
+            <div id="det_${day}" style="display:none; margin-top:10px; font-size:13px; background:var(--compact-bg); padding:10px; border-radius:8px;">
+                ${detailsHtml || '<div style="color:var(--text-muted);">Kayıt yok.</div>'}
             </div>
         `;
         historyList.appendChild(card);
@@ -1038,13 +1102,13 @@ function generatePDF(startDay, endDay) {
         let dayTableHtml = `<h3 style="margin-top:25px; font-size:16px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">📅 ${formatDate(day)}</h3>
         <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
             <tr style="background:#f8fafc;">
-                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left;">Ürün</th>
-                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left;">Müşteri</th>
-                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left;">Fiyat</th>
-                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left;">Miktar</th>
-                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left;">Nakliye</th>
-                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left;">Ödeme</th>
-                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left;">Toplam</th>
+                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left; color:#0f172a;">Ürün</th>
+                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left; color:#0f172a;">Müşteri</th>
+                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left; color:#0f172a;">Fiyat</th>
+                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left; color:#0f172a;">Miktar</th>
+                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left; color:#0f172a;">Nakliye</th>
+                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left; color:#0f172a;">Ödeme</th>
+                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left; color:#0f172a;">Toplam</th>
             </tr>`;
         
         (data[day] || []).forEach(p => {
@@ -1056,13 +1120,13 @@ function generatePDF(startDay, endDay) {
                 const pay = tx.paymentMethod === 'kart' ? 'Kart' : (tx.paymentMethod === 'veresiye' ? 'Veresiye' : 'Nakit');
                 const unit = tx.unit === 'kg' ? 'Kg' : 'Adet';
                 dayTableHtml += `<tr>
-                    <td style="border:1px solid #cbd5e1; padding:8px;">${escapeHTML(p.name||"-")}</td>
-                    <td style="border:1px solid #cbd5e1; padding:8px;">${escapeHTML(tx.customer||"-")}</td>
-                    <td style="border:1px solid #cbd5e1; padding:8px;">${money(tx.price)}</td>
-                    <td style="border:1px solid #cbd5e1; padding:8px;">${tx.quantity} ${unit}</td>
-                    <td style="border:1px solid #cbd5e1; padding:8px;">${pShip > 0 ? money(pShip) : "-"}</td>
-                    <td style="border:1px solid #cbd5e1; padding:8px;">${pay}</td>
-                    <td style="border:1px solid #cbd5e1; padding:8px;"><b>${money(t)}</b></td>
+                    <td style="border:1px solid #cbd5e1; padding:8px; color:#0f172a;">${escapeHTML(p.name||"-")}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px; color:#0f172a;">${escapeHTML(tx.customer||"-")}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px; color:#0f172a;">${money(tx.price)}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px; color:#0f172a;">${tx.quantity} ${unit}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px; color:#0f172a;">${pShip > 0 ? money(pShip) : "-"}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px; color:#0f172a;">${pay}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px; color:#0f172a;"><b>${money(t)}</b></td>
                 </tr>`;
             });
         });
@@ -1077,8 +1141,17 @@ function generatePDF(startDay, endDay) {
     document.getElementById("pdfPreviewModal").classList.add("active");
 }
 
-function triggerSystemPrint() {
-    window.print();
+// BİLGİSAYARA DOĞRUDAN PDF DOSYASI OLARAK İNDİRME (html2pdf)
+function downloadPDFFile() {
+    const element = document.getElementById("pdf-container-element");
+    const opt = {
+        margin:       10,
+        filename:     `${activeCompany.name}_satis_raporu.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, scrollX: 0, scrollY: 0 },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().from(element).set(opt).save();
 }
 
 function exportReport(type, startDay = null, endDay = null) {
