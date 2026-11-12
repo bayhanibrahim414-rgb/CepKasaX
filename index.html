@@ -8,8 +8,6 @@
 <meta name="google-site-verification" content="OMRhTpHg1yEGezehS5HN6kFjUol8gSi-f4D9ghG8QGs" />
 <title>CepkasaX</title>
 <meta name="description" content="CepkasaX - İşletmeler için ücretsiz, anlık senkronize satış, ciro ve ürün takip uygulaması.">
-<meta name="keywords" content="CepkasaX, cepkasax, satış takip, ciro takip, ortak kasa, ön muhasebe">
-<meta name="author" content="CepkasaX">
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 150'><rect width='500' height='150' rx='35' fill='%230f172a'/><text x='250' y='98' font-size='72' font-weight='900' fill='%2322c55e' text-anchor='middle' font-family='Arial, sans-serif' letter-spacing='1'>CepKasaX</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 150'><rect width='500' height='150' rx='35' fill='%230f172a'/><text x='250' y='98' font-size='72' font-weight='900' fill='%2322c55e' text-anchor='middle' font-family='Arial, sans-serif' letter-spacing='1'>CepKasaX</text></svg>">
@@ -30,7 +28,6 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
 .brand-title { font-size: 28px; font-weight: 900; color: #22c55e; margin-top: 0; margin-bottom: 5px; letter-spacing: 1px; }
 .brand-subtitle { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
 
-/* YEŞİL TASARIMLI ARAMA KUTUSU */
 .search-wrapper { position: relative; margin-bottom: 15px; }
 .search-icon { position: absolute; left: 14px; top: 15px; font-size: 16px; color: #22c55e; font-weight:bold; }
 #searchInput { border: 1px solid rgba(34, 197, 94, 0.6); background: rgba(34, 197, 94, 0.1); color: white; transition: 0.3s; }
@@ -66,18 +63,16 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
 
 /* ANA UYGULAMA */
 #appContainer { display: none; }
-.app { max-width: 650px; margin: auto; min-height: 100vh; padding-bottom: 100px; }
+.app { max-width: 650px; margin: auto; min-height: 100vh; padding-bottom: 220px; }
 .header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 24px 20px; border-radius: 0 0 28px 28px; box-shadow: 0 8px 30px rgba(15,23,42,.2); position: relative;}
 .header-top { display: flex; justify-content: space-between; align-items: center; min-height: 48px; }
 .header-actions { display: flex; gap: 8px; position: relative; }
 .btn-exit { background: rgba(255,255,255,0.1); border: none; color: white; width: 34px; height: 34px; border-radius: 50%; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight:bold; }
 .date { margin-top: 8px; opacity: .75; font-size: 13px; }
 
-/* AYARLAR MENÜSÜ */
 .dropdown-menu { position: absolute; top: 40px; right: 0; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); overflow: hidden; display: none; z-index: 100; min-width: 190px; }
 .dropdown-menu.active { display: block; }
 .dropdown-menu button { display: block; width: 100%; text-align: left; padding: 12px 15px; border: none; background: transparent; font-size: 14px; font-weight: 600; color: #0f172a; cursor: pointer; border-bottom: 1px solid #f1f5f9; }
-.dropdown-menu button:last-child { border-bottom: none; }
 .dropdown-menu button:hover { background: #f8fafc; }
 
 /* CİRO KIRILIM KARTI */
@@ -93,52 +88,119 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
 .content { padding: 18px; }
 .section-title { font-size: 18px; font-weight: 800; margin: 10px 0 14px; }
 
-/* SATIŞ KARTLARI */
-.sale-card { background: white; border-radius: 18px; padding: 15px; margin-bottom: 12px; box-shadow: 0 4px 16px rgba(15,23,42,.05); border: 1px solid #e2e8f0; position: relative; }
-.delete-btn { position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; border: none; border-radius: 8px; background: #fee2e2; color: #dc2626; font-size: 20px; line-height: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10;}
-.sale-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
-.input { width: 100%; border: 1px solid #e2e8f0; background: #f8fafc; padding: 12px; border-radius: 10px; font-size: 14px; outline: none; }
-.input:focus { border-color: #22c55e; background: white; }
-.small-label { display: block; font-size: 11px; color: #64748b; margin-bottom: 4px; font-weight:600;}
-.line-total { font-weight: 900; color: #0f172a; font-size: 16px; min-width: 85px; text-align: right; }
+/* YENİ ÜRÜN KARTLARI */
+.product-card { background: white; border-radius: 18px; padding: 16px; margin-bottom: 15px; box-shadow: 0 4px 16px rgba(15,23,42,.05); border: 1px solid #e2e8f0; position: relative; }
+.prod-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px dashed #cbd5e1; padding-bottom: 10px; }
+.prod-name-input { width: 100%; border: none; font-size: 18px; font-weight: 900; color: #0f172a; outline: none; background: transparent; }
+.prod-name-input::placeholder { color: #94a3b8; font-weight: 600; }
+.delete-btn { width: 28px; height: 28px; border: none; border-radius: 8px; background: #fee2e2; color: #dc2626; font-size: 18px; line-height: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-left: 10px; flex-shrink: 0;}
 
-.unit-qty-group { display: flex; align-items: center; border: 1px solid #e2e8f0; background: #f8fafc; border-radius: 10px; overflow: hidden; height: 43px; }
-.unit-select { border: none; background: transparent; border-right: 1px solid #e2e8f0; padding: 0 4px; font-weight: bold; color: #0f172a; outline: none; font-size: 12px; height: 100%; }
-.qty-btn { background: #e2e8f0; border: none; width: 32px; height: 100%; font-size: 18px; font-weight: bold; color: #0f172a; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.qty-btn:active { background: #cbd5e1; }
+/* TASLAK FORM */
+.draft-area { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 14px; margin-bottom: 5px; }
+.sale-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+.input { width: 100%; border: 1px solid #cbd5e1; background: white; padding: 12px; border-radius: 10px; font-size: 14px; outline: none; transition:0.2s; }
+.input:focus { border-color: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,0.1); }
+.small-label { display: block; font-size: 11px; color: #64748b; margin-bottom: 4px; font-weight:700;}
+.line-total { font-weight: 900; color: #0f172a; font-size: 16px; text-align: right; }
+
+.unit-qty-group { display: flex; align-items: center; border: 1px solid #cbd5e1; background: white; border-radius: 10px; overflow: hidden; height: 43px; }
+.unit-select { border: none; background: transparent; border-right: 1px solid #cbd5e1; padding: 0 4px; font-weight: bold; color: #0f172a; outline: none; font-size: 12px; height: 100%; }
+.qty-btn { background: #f1f5f9; border: none; width: 32px; height: 100%; font-size: 18px; font-weight: bold; color: #0f172a; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.qty-btn:active { background: #e2e8f0; }
 .qty-input { width: 100%; border: none; background: transparent; text-align: center; font-size: 15px; font-weight: 700; outline: none; padding: 0; -moz-appearance: textfield; }
-.qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
 .payment-group { display: flex; gap: 6px; flex: 1; }
-.pay-btn { flex: 1; padding: 10px 0; border: 1px solid #e2e8f0; background: #f8fafc; border-radius: 10px; font-size: 12px; font-weight: 700; color: #64748b; cursor: pointer; transition: 0.2s; }
+.pay-btn { flex: 1; padding: 10px 0; border: 1px solid #cbd5e1; background: white; border-radius: 10px; font-size: 12px; font-weight: 700; color: #64748b; cursor: pointer; transition: 0.2s; }
 .pay-btn.active.nakit { background: #22c55e; color: white; border-color: #22c55e; }
 .pay-btn.active.kart { background: #3b82f6; color: white; border-color: #3b82f6; }
 .pay-btn.active.veresiye { background: #ef4444; color: white; border-color: #ef4444; }
 
+.btn-save-tx { background: #0f172a; color: white; border: none; width: 100%; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer; margin-top: 5px; box-shadow: 0 4px 10px rgba(15,23,42,0.2); transition:0.2s;}
+.btn-save-tx:active { transform: scale(0.98); background: #1e293b; }
+
+/* KOMPAKT SATIŞ LİSTESİ */
+.tx-list-container { margin-top:15px; border-top:2px dashed #cbd5e1; padding-top:12px; }
+.tx-list { display: flex; flex-direction: column; gap: 6px; max-height: 160px; overflow-y: auto; padding-right: 4px; }
+.compact-tx { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 10px 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; }
+.compact-tx:active { transform: scale(0.98); }
+
 .btn { border: none; border-radius: 12px; padding: 14px; width: 100%; font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 8px;}
-.btn-add { background: #0f172a; color: white; }
+.btn-add { background: #0f172a; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2);}
 .btn-history { background: white; color: #0f172a; border: 1px solid #e2e8f0; }
 .btn-excel { background: #16a34a; color: white; }
 .btn-pdf { background: #dc2626; color: white; }
+.btn-small-pdf { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; display:flex; align-items:center; gap:4px; }
+.btn-details { width: 100%; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px; margin-top: 10px; border-radius: 8px; font-weight: bold; color: #0f172a; cursor: pointer; }
 
+/* SABİT BUGÜNE DÖN BUTONU */
 .history { display: none; }
 .history.active { display: block; }
 .history-card { background: white; padding: 16px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #e2e8f0; }
-.history-date { font-weight: 800; }
+.history-date { font-weight: 800; font-size: 15px; }
 .history-total { color: #16a34a; font-size: 20px; font-weight: 800; margin-top: 6px; }
 .empty { text-align: center; color: #64748b; padding: 30px 10px; font-size: 14px;}
+
+.fixed-return-btn { position: fixed; bottom: 85px; left: 0; width: 100%; padding: 10px 18px; display: none; justify-content: center; z-index: 95; pointer-events: none; }
+.history.active .fixed-return-btn { display: flex; }
+
+/* SABİT SATIŞ BUTONLARI ALANI */
+.fixed-sales-btns { position: fixed; bottom: 58px; left: 0; width: 100%; padding: 12px 18px; background: rgba(241, 245, 249, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 85; display: flex; justify-content: center; border-top: 1px solid #cbd5e1; box-shadow: 0 -4px 15px rgba(0,0,0,0.03); }
+.fixed-sales-btns-inner { max-width: 650px; width: 100%; display: flex; flex-direction: column; }
 
 .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; padding: 12px 18px 24px; background: rgba(255,255,255,.94); backdrop-filter: blur(15px); border-top: 1px solid #e2e8f0; z-index:90;}
 .bottom-content { max-width: 650px; margin: auto; display: flex; justify-content: space-between; align-items: center; }
 .bottom-label { font-size: 13px; color: #64748b; font-weight:bold; }
 .bottom-total { font-size: 22px; font-weight: 900; color: #16a34a; }
+
+/* PDF ÖNİZLEME MODALI VE HİZALAMA */
+#pdfPreviewModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #334155; z-index: 200000; display: none; flex-direction: column; }
+#pdfPreviewModal.active { display: flex; }
+.pdf-topbar { background: #0f172a; color: white; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); flex-shrink: 0; }
+.pdf-scroll-area { flex: 1; overflow-y: auto; overflow-x: auto; padding: 20px; -webkit-overflow-scrolling: touch; display: flex; justify-content: center; align-items: flex-start; }
+
+/* PDF RAPOR Kapsayıcısı (Tam ekran, sola/başa hizalı ve düzgün görünüm) */
+#pdf-container-element {
+    background: white;
+    width: 100%;
+    max-width: 800px;
+    padding: 30px;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-sizing: border-box;
+}
+
+/* YAZDIRMA (PRINT) İÇİN SAYFA KESİLMELERİ VE GİZLEME */
+@media print {
+    body * { visibility: hidden; }
+    #pdfPreviewModal, #pdfPreviewModal * { visibility: visible; }
+    #pdfPreviewModal { position: absolute; left: 0; top: 0; width: 100%; height: auto; background: white; }
+    .pdf-topbar { display: none !important; }
+    .pdf-scroll-area { padding: 0 !important; overflow: visible !important; display: block !important; }
+    #pdf-container-element { box-shadow: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; }
+    table { page-break-inside: auto; width: 100% !important; }
+    tr { page-break-inside: avoid; page-break-after: auto; }
+}
 </style>
 </head>
 
 <body>
 
+<!-- PDF ÖNİZLEME VE KAYDETME EKRANI -->
+<div id="pdfPreviewModal">
+    <div class="pdf-topbar">
+        <button onclick="closePdfModal()" style="background:rgba(255,255,255,0.15); color:white; border:none; padding:10px 14px; border-radius:10px; font-weight:bold; cursor:pointer;">← Kapat</button>
+        <div style="display:flex; gap:8px;">
+            <button onclick="triggerSystemPrint()" style="background:#22c55e; color:white; border:none; padding:10px 16px; border-radius:10px; font-weight:bold; cursor:pointer; font-size:14px;">📥 PDF İndir / Yazdır</button>
+        </div>
+    </div>
+    <div class="pdf-scroll-area">
+        <div id="pdfRenderTarget"></div>
+    </div>
+</div>
+
 <!-- ORTAK ONAY PENCERESİ -->
-<div id="confirmModal" class="modal-overlay">
+<div id="confirmModal" class="modal-overlay" style="z-index: 100010;">
     <div class="glass-panel modal-panel active">
         <h2 id="modalTitle">Emin misin?</h2>
         <p id="modalDesc">Bu işlemi geri alamazsınız.</p>
@@ -150,20 +212,29 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
     </div>
 </div>
 
-<!-- ŞİFRE/İSİM DEĞİŞTİRME VE SİLME PENCERESİ -->
+<!-- SATIŞ DETAYI VE SİLME PENCERESİ -->
+<div id="txDetailModal" class="modal-overlay" style="z-index: 100000;">
+    <div class="glass-panel modal-panel active" style="background: white; color: #0f172a; text-align:left; border-radius:24px;">
+        <h2 id="txDetailTitle" style="color:#0f172a; margin-top:0; border-bottom:2px dashed #e2e8f0; padding-bottom:10px;">Satış Detayı</h2>
+        <div id="txDetailContent" style="margin-bottom:20px; line-height:1.6; font-size:14px; font-weight:600;"></div>
+        <div class="modal-buttons" style="flex-direction:column; gap:8px;">
+            <button class="btn-glass danger" style="background:#ef4444; color:white; border:none; margin-bottom:0;" onclick="deleteActiveTx()">🗑️ Bu Satışı Sil</button>
+            <button class="btn-glass cancel" style="color:#0f172a; border: 1px solid #cbd5e1; margin-bottom:0;" onclick="closeTxModal()">Kapat</button>
+        </div>
+    </div>
+</div>
+
+<!-- ŞİFRE/İSİM DEĞİŞTİRME PENCERESİ -->
 <div id="settingsModal" class="modal-overlay">
     <div class="glass-panel modal-panel active">
         <h2 id="settingsTitle">Ayarlar</h2>
         <p style="font-size:12px; color:#94a3b8; margin-top:-10px;">Şirket adı ayda 1 kez değişir.<br>Şifrenizi istediğiniz zaman değiştirebilirsiniz.</p>
-        
         <input type="text" id="setCompName" class="glass-input center" placeholder="Yeni Şirket Adı" autocomplete="off">
         <input type="password" id="setCompPin" class="glass-input center" placeholder="Yeni 6 Haneli Şifre" maxlength="6" inputmode="numeric" autocomplete="new-password">
-        
         <div class="modal-buttons" style="margin-bottom:15px;">
             <button class="btn-glass cancel" onclick="closeSettings()" style="margin-bottom:0;">İptal</button>
             <button class="btn-glass" onclick="saveSettings()" style="margin-bottom:0;">Kaydet</button>
         </div>
-        
         <hr style="border-top: 1px solid rgba(255,255,255,0.1); border-bottom:none; margin-bottom:15px;">
         <button class="btn-glass danger" onclick="requestDeleteActiveCompany()" style="margin-bottom:0; font-size:13px; padding:12px;">🗑️ Şirketi Tamamen Sil</button>
     </div>
@@ -181,7 +252,6 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
         <button class="btn-glass add-new" onclick="showPanel('panelAdd')">+ Yeni Şirket Ekle</button>
         <div id="companyList" class="company-list"></div>
     </div>
-
     <div class="glass-panel" id="panelAdd">
         <h1 class="brand-title">CepkasaX</h1>
         <div class="brand-subtitle">Yeni Şirket Ekle</div>
@@ -190,7 +260,6 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
         <button class="btn-glass" onclick="createNewCompany()">Oluştur</button>
         <button class="btn-glass cancel" onclick="showPanel('panelList')">İptal</button>
     </div>
-
     <div class="glass-panel" id="panelLogin">
         <h2 id="loginTitle">Şifre Girin</h2>
         <input type="password" id="loginPin" class="glass-input center" placeholder="6 Haneli Şifre" maxlength="6" inputmode="numeric" autocomplete="current-password" onkeydown="if(event.key === 'Enter') verifyLogin()">
@@ -204,17 +273,13 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
     <div class="app">
         <div class="header">
             <div class="header-top">
-                
-                <!-- BÜYÜYÜP KÜÇÜLEN EFEKTLİ ALAN -->
                 <div style="display:flex; flex-direction:column; justify-content:center; flex:1;">
                     <div id="welcomeMessage" style="font-size:24px; font-weight:900; color:#22c55e; letter-spacing:1px; transition:all 0.6s cubic-bezier(0.4, 0, 0.2, 1); opacity:1; max-height:40px; margin-bottom:2px; overflow:hidden;">HOŞGELDİNİZ</div>
                     <h1 id="companyTitle" style="margin:0; font-size:13px; font-weight:600; color:#94a3b8; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition:all 0.6s cubic-bezier(0.4, 0, 0.2, 1);">🏢 Şirket Adı</h1>
                 </div>
-                
                 <div class="header-actions">
                     <button class="btn-exit" onclick="toggleMenu(event)" title="Ayarlar">⋮</button>
-                    <button class="btn-exit" onclick="logout()" title="Çıkış Yap">×</button>
-                    
+                    <button class="btn-exit" onclick="confirmLogout()" title="Çıkış Yap">×</button>
                     <div id="settingsMenu" class="dropdown-menu">
                         <button onclick="openSettingsModal()">Şifre / Şirket Adı Ayarları</button>
                     </div>
@@ -237,24 +302,43 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
 
         <div class="content">
             <div id="salesPage">
-                <div class="section-title">Bugünkü Ürünler</div>
+                <div style="padding-bottom: 20px;">
+                    <div class="section-title">Bugünkü Ürünler ve Satışlar</div>
+                    <input type="text" id="filterInput" class="glass-input dark" placeholder="🔍 Ürün veya Müşteri Ara..." oninput="renderSales()" autocomplete="off">
+                    <div id="salesList"></div>
+                </div>
                 
-                <input type="text" id="filterInput" class="glass-input dark" placeholder="🔍 Ürün Adıyla Ara veya Filtrele..." oninput="renderSales()" autocomplete="off">
-                
-                <div id="salesList"></div>
-                <button class="btn btn-add" onclick="addSale()">+ Yeni Ürün Ekle</button>
-                <button class="btn btn-history" onclick="showHistory()">📅 Geçmiş Günler ve Raporlar</button>
+                <div class="fixed-sales-btns" id="salesActionBtns">
+                    <div class="fixed-sales-btns-inner">
+                        <button class="btn btn-add" onclick="addProduct()">+ Yeni Ürün Ekle</button>
+                        <button class="btn btn-history" style="margin-bottom:0;" onclick="showHistory()">📅 Geçmiş Günler ve Raporlar</button>
+                    </div>
+                </div>
             </div>
 
             <div id="historyPage" class="history">
-                <div class="section-title">📅 Geçmiş Raporlar ve Dökümler</div>
-                <div style="background: white; padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #e2e8f0;">
-                    <div style="font-weight: 800; margin-bottom: 10px; font-size: 15px;">📊 Excel / PDF Rapor Al</div>
-                    <button class="btn btn-excel" onclick="exportReport('excel')">📥 Excel'e Aktar (Tüm Veriler)</button>
-                    <button class="btn btn-pdf" onclick="exportReport('pdf')">🖨️ PDF Rapor / Yazdır</button>
+                <div style="padding-bottom: 90px;">
+                    <div class="section-title">📅 Geçmiş Raporlar ve Dökümler</div>
+                    <div style="background: white; padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #e2e8f0;">
+                        <div style="font-weight: 800; margin-bottom: 10px; font-size: 15px;">📊 Tarih Aralığı Seç ve PDF Al</div>
+                        <div style="display:flex; gap:10px; margin-bottom:12px;">
+                            <div style="flex:1;">
+                                <span class="small-label">Başlangıç</span>
+                                <input type="date" id="repStart" class="input" style="padding:10px; font-size:13px;">
+                            </div>
+                            <div style="flex:1;">
+                                <span class="small-label">Bitiş</span>
+                                <input type="date" id="repEnd" class="input" style="padding:10px; font-size:13px;">
+                            </div>
+                        </div>
+                        <button class="btn btn-pdf" onclick="exportRangePDF()" style="margin-bottom:10px;">🖨️ Seçili Aralığı PDF Yap</button>
+                        <button class="btn btn-excel" onclick="exportReport('excel', null, null)">📥 Tüm Veriyi Excel Yap</button>
+                    </div>
+                    <div id="historyList"></div>
                 </div>
-                <div id="historyList"></div>
-                <button class="btn btn-add" onclick="showSales()">← Bugüne Dön</button>
+                <div class="fixed-return-btn">
+                    <button class="btn btn-add" style="pointer-events: auto; max-width:650px;" onclick="showSales()">← Bugüne Dön</button>
+                </div>
             </div>
         </div>
     </div>
@@ -296,7 +380,6 @@ function openConfirm(title, description, actionCallback, requirePin = false, exp
     confirmActionCallback = actionCallback;
     confirmRequiresPin = requirePin;
     confirmPinValue = expectedPin;
-    
     const pinInput = document.getElementById("modalInput");
     if (requirePin) { pinInput.style.display = "block"; pinInput.value = ""; setTimeout(() => pinInput.focus(), 150); } 
     else { pinInput.style.display = "none"; }
@@ -304,7 +387,6 @@ function openConfirm(title, description, actionCallback, requirePin = false, exp
 }
 
 function closeConfirm() { confirmActionCallback = null; document.getElementById("confirmModal").classList.remove("active"); }
-
 function executeConfirm() {
     if (confirmRequiresPin) {
         const entered = document.getElementById("modalInput").value.trim();
@@ -321,7 +403,6 @@ let STORAGE_KEY = "";
 function loadCompanies() {
     const localData = JSON.parse(localStorage.getItem("app_companies")) || [];
     if (localData.length > 0) { companies = localData; renderCompanyList(); }
-
     if (USE_FIREBASE && db) {
         db.ref('companies').on('value', (snapshot) => {
             const data = snapshot.val() || [];
@@ -366,9 +447,8 @@ function createNewCompany() {
     const pin = document.getElementById("newCompPin").value.trim();
     if (!name) return alert("Şirket adı boş olamaz!");
     if (!/^\d{6}$/.test(pin)) return alert("Şifre 6 haneli rakam olmalıdır!");
-
     const exists = companies.find(c => c.name.toLowerCase() === name.toLowerCase());
-    if (exists) return alert("Bu isimde bir şirket zaten mevcut! Karışıklık olmaması için lütfen farklı bir ad seçin.");
+    if (exists) return alert("Bu isimde bir şirket zaten mevcut! Lütfen farklı bir ad seçin.");
 
     companies.push({ id: "comp_" + Date.now(), name: name, pin: pin, lastNameUpdate: 0 });
     saveCompanies(); renderCompanyList(); showPanel("panelList");
@@ -378,6 +458,10 @@ function verifyLogin() {
     const pinInput = document.getElementById("loginPin").value.trim();
     if (pinInput === activeCompany.pin) startApp(activeCompany);
     else alert("Hatalı Şifre!");
+}
+
+function confirmLogout() {
+    openConfirm("Çıkış Yap", "Uygulamadan çıkış yapmak istediğinize emin misiniz?", () => { logout(); });
 }
 
 function logout() {
@@ -390,8 +474,7 @@ loadCompanies();
 
 function toggleMenu(e) {
     e.stopPropagation();
-    const menu = document.getElementById("settingsMenu");
-    menu.classList.toggle("active");
+    document.getElementById("settingsMenu").classList.toggle("active");
 }
 document.addEventListener("click", () => {
     document.getElementById("settingsMenu").classList.remove("active");
@@ -407,9 +490,9 @@ function closeSettings() { document.getElementById("settingsModal").classList.re
 function saveSettings() {
     const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
     const now = Date.now();
-    
     const newName = document.getElementById("setCompName").value.trim();
     const newPin = document.getElementById("setCompPin").value.trim();
+    
     if (!newName) return alert("Şirket adı boş olamaz!");
     if (!/^\d{6}$/.test(newPin)) return alert("Şifre 6 haneli rakam olmalıdır!");
 
@@ -418,19 +501,17 @@ function saveSettings() {
         if (exists) return alert("Bu isimde bir şirket zaten mevcut! Lütfen farklı bir ad seçin.");
 
         if (activeCompany.lastNameUpdate && (now - activeCompany.lastNameUpdate) < THIRTY_DAYS) {
-            alert("Uyarı: Şirket adını değiştirmek için 1 aylık sürenizin dolmasını beklemelisiniz. (Şifrenizi değiştirebilirsiniz)");
+            alert("Uyarı: Şirket adını değiştirmek için 1 aylık sürenizin dolmasını beklemelisiniz.");
             return; 
         }
         activeCompany.name = newName;
         activeCompany.lastNameUpdate = now;
     }
-
     activeCompany.pin = newPin;
 
     const idx = companies.findIndex(c => c.id === activeCompany.id);
     if(idx > -1) companies[idx] = activeCompany;
     saveCompanies();
-
     document.getElementById("companyTitle").innerText = `🏢 ${activeCompany.name}`;
     closeSettings();
     alert("Bilgiler başarıyla güncellendi!");
@@ -452,30 +533,24 @@ function startApp(company) {
     document.getElementById("loginPage").style.display = "none";
     document.getElementById("appContainer").style.display = "block";
     
-    // ANİMASYON ELEMENTLERİNİ HAZIRLA
     const welcomeMsg = document.getElementById("welcomeMessage");
     const compTitle = document.getElementById("companyTitle");
-    
     compTitle.innerText = `🏢 ${company.name}`;
     
-    // Başlangıç (Büyük Hoşgeldiniz, Küçük Şirket Adı)
     welcomeMsg.style.opacity = "1";
     welcomeMsg.style.maxHeight = "40px";
     welcomeMsg.style.fontSize = "24px";
     welcomeMsg.style.marginBottom = "2px";
-    
     compTitle.style.fontSize = "13px";
-    compTitle.style.color = "#94a3b8"; // soluk gri
+    compTitle.style.color = "#94a3b8"; 
     
-    // 2 saniye sonra (Hoşgeldiniz Kaybolur, Şirket Adı Büyür)
     setTimeout(() => {
         welcomeMsg.style.opacity = "0";
         welcomeMsg.style.maxHeight = "0px";
         welcomeMsg.style.fontSize = "0px";
         welcomeMsg.style.marginBottom = "0px";
-        
         compTitle.style.fontSize = "22px";
-        compTitle.style.color = "white"; // Tam beyaza dönerek belirginleşir
+        compTitle.style.color = "white"; 
     }, 2000);
     
     document.getElementById("filterInput").value = "";
@@ -484,7 +559,8 @@ function startApp(company) {
     if (USE_FIREBASE && db) {
         db.ref('sales/' + company.id).on('value', (snapshot) => {
             const incomingData = snapshot.val() || {};
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(incomingData));
+            const normalized = normalizeData(incomingData);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized));
             if (!isTyping) { renderSales(); if(document.getElementById("historyPage").classList.contains("active")) renderHistory(); }
         });
     }
@@ -492,65 +568,215 @@ function startApp(company) {
 
 function getTodayKey() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; }
 function formatDate(dateKey) { const [y, m, d] = dateKey.split("-"); return `${d}.${m}.${y}`; }
-function getData() { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
 
-function saveTodaySales(sales) {
-    const data = getData(); const today = getTodayKey(); data[today] = sales;
+function normalizeData(data) {
+    let isModified = false;
+    Object.keys(data).forEach(day => {
+        let dayArray = data[day] || [];
+        
+        if (dayArray.length > 0 && dayArray[0].draft === undefined && dayArray[0].product !== undefined) {
+            let migrated = [];
+            dayArray.forEach(oldTx => {
+                let prodName = oldTx.product || "";
+                let prod = migrated.find(p => p.name === prodName);
+                let tx = {
+                    id: 'tx_' + Math.random().toString(36).substr(2, 9),
+                    customer: oldTx.customer || '',
+                    price: Number(oldTx.price) || 0,
+                    quantity: Number(oldTx.quantity) || 0,
+                    unit: oldTx.unit || 'adet',
+                    shipping: Number(oldTx.shipping) || 0,
+                    paymentMethod: oldTx.paymentMethod || 'nakit'
+                };
+                if (prod) { prod.transactions.push(tx); } 
+                else {
+                    migrated.push({
+                        id: 'prod_' + Math.random().toString(36).substr(2, 9),
+                        name: prodName,
+                        transactions: [tx],
+                        draft: { customer: "", price: "", quantity: 0, unit: "adet", shipping: "", paymentMethod: "nakit" }
+                    });
+                }
+            });
+            data[day] = migrated;
+            isModified = true;
+        } else {
+            dayArray.forEach(p => {
+                if (!p.draft) { p.draft = { customer: "", price: "", quantity: 0, unit: "adet", shipping: "", paymentMethod: "nakit" }; isModified = true; }
+                if (!p.transactions) { p.transactions = []; isModified = true; }
+            });
+        }
+    });
+    if(isModified && !USE_FIREBASE) localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    return data;
+}
+
+function getData() { 
+    let rawData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; 
+    return normalizeData(rawData);
+}
+
+function saveTodaySales(salesData) {
+    const data = getData(); 
+    const today = getTodayKey(); 
+    data[today] = salesData;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    if (USE_FIREBASE && db) db.ref('sales/' + activeCompany.id + '/' + today).set(sales);
+    if (USE_FIREBASE && db) db.ref('sales/' + activeCompany.id + '/' + today).set(salesData);
 }
 
 function getTodaySales() { const data = getData(); return data[getTodayKey()] || []; }
 function money(val) { return new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY" }).format(val || 0); }
 function showDate() { document.getElementById("todayDate").innerText = new Date().toLocaleDateString("tr-TR", { weekday: "long", year: "numeric", month: "long", day: "numeric" }); }
 
-function addSale(product = "", price = "", quantity = 0, unit = "adet", paymentMethod = "nakit") {
+function addProduct() {
     const sales = getTodaySales();
-    sales.push({ product, price, quantity, unit, paymentMethod });
+    sales.push({ 
+        id: 'prod_' + Date.now(), 
+        name: "", 
+        transactions: [], 
+        draft: { customer: "", price: "", quantity: 0, unit: "adet", shipping: "", paymentMethod: "nakit" }
+    });
     saveTodaySales(sales);
     document.getElementById("filterInput").value = ""; 
-    renderSales(); 
+    renderSales();
+    setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }), 100);
 }
 
-function requestDeleteSale(index) {
-    openConfirm("Ürünü Kaldır", "Bu satışı kaldırmak istediğine emin misin?", () => {
+function deleteProduct(pIndex) {
+    openConfirm("Ürünü Sil", "Bu ürünü ve altındaki tüm satış kayıtlarını silmek istediğine emin misin?", () => {
         const sales = getTodaySales();
-        sales.splice(index, 1);
+        sales.splice(pIndex, 1);
         saveTodaySales(sales);
         renderSales();
     });
 }
 
-function updateSale(index, field, value) {
+function updateDraft(pIndex, field, value) {
     isTyping = true; 
     const sales = getTodaySales();
-    if (field === "price" || field === "quantity") value = value === "" ? "" : Number(value);
-    sales[index][field] = value;
+    if (!sales[pIndex]) return;
+
+    if (!sales[pIndex].draft) sales[pIndex].draft = { customer: "", price: "", quantity: 0, unit: "adet", shipping: "", paymentMethod: "nakit" };
+    
+    if (field === 'name') {
+        sales[pIndex].name = value;
+    } else {
+        if (field === "price" || field === "quantity" || field === "shipping") {
+            value = value === "" ? "" : Number(value);
+        }
+        sales[pIndex].draft[field] = value;
+    }
+    
     saveTodaySales(sales);
     
     if (field === 'paymentMethod' || field === 'unit') {
         renderSales(); 
-    } else {
-        updateTotalsDOM(); 
+    } else if (field !== 'name') {
+        const dPrice = Number(sales[pIndex].draft.price) || 0;
+        const dQty = Number(sales[pIndex].draft.quantity) || 0;
+        const dShip = Number(sales[pIndex].draft.shipping) || 0;
+        const el = document.getElementById(`draft-total-${pIndex}`);
+        if(el) el.innerText = money((dPrice * dQty) + dShip);
     }
     
     clearTimeout(window.typingTimer);
-    window.typingTimer = setTimeout(() => { isTyping = false; }, 2000);
+    window.typingTimer = setTimeout(() => { isTyping = false; updateTotalsDOM(); }, 1500);
 }
 
-function changeQty(index, amount) {
+function changeQty(pIndex, amount) {
     const sales = getTodaySales();
-    let currentQty = Number(sales[index].quantity) || 0;
+    const product = sales[pIndex];
+    if (!product) return;
+    if (!product.draft) product.draft = { customer: "", price: "", quantity: 0, unit: "adet", shipping: "", paymentMethod: "nakit" };
+    
+    let currentQty = Number(product.draft.quantity) || 0;
     let nextQty = currentQty + amount;
     if (nextQty < 0) nextQty = 0; 
     
-    sales[index].quantity = nextQty;
+    product.draft.quantity = nextQty;
     saveTodaySales(sales);
     
-    const qtyEl = document.getElementById(`qty-input-${index}`);
+    const qtyEl = document.getElementById(`qty-input-${pIndex}`);
     if (qtyEl) qtyEl.value = nextQty;
     
-    updateTotalsDOM();
+    const dPrice = Number(product.draft.price) || 0;
+    const dShip = Number(product.draft.shipping) || 0;
+    const el = document.getElementById(`draft-total-${pIndex}`);
+    if(el) el.innerText = money((dPrice * nextQty) + dShip);
+}
+
+function saveTransaction(pIndex) {
+    const sales = getTodaySales();
+    const product = sales[pIndex];
+    const draft = product.draft || { customer: "", price: "", quantity: 0, unit: "adet", shipping: "", paymentMethod: "nakit" };
+
+    if (!product.name || !product.name.trim()) return alert("Lütfen önce ürün adını yazınız!");
+    if (!draft.price || draft.price <= 0) return alert("Lütfen geçerli bir birim fiyatı giriniz!");
+    if (!draft.quantity || draft.quantity <= 0) return alert("Lütfen miktar giriniz!");
+
+    if (!product.transactions) product.transactions = [];
+
+    product.transactions.push({
+        id: 'tx_' + Date.now(),
+        customer: (draft.customer || "").trim(),
+        price: draft.price,
+        quantity: draft.quantity,
+        unit: draft.unit,
+        shipping: draft.shipping,
+        paymentMethod: draft.paymentMethod
+    });
+
+    product.draft = { customer: "", price: "", quantity: 0, unit: "adet", shipping: "", paymentMethod: "nakit" };
+    saveTodaySales(sales);
+    renderSales();
+}
+
+let activeTxPIndex = -1;
+let activeTxTIndex = -1;
+
+function openTxDetails(pIndex, tIndex) {
+    activeTxPIndex = pIndex;
+    activeTxTIndex = tIndex;
+    const prod = getTodaySales()[pIndex];
+    const tx = prod.transactions[tIndex];
+    
+    document.getElementById("txDetailTitle").innerText = prod.name;
+    document.getElementById("txDetailContent").innerHTML = `
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0; padding-bottom:8px; margin-bottom:8px;">
+            <span style="color:#64748b;">Müşteri:</span> <span>${tx.customer ? escapeHTML(tx.customer) : '<span style="font-style:italic; color:#94a3b8;">Belirtilmedi</span>'}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0; padding-bottom:8px; margin-bottom:8px;">
+            <span style="color:#64748b;">Miktar:</span> <span>${tx.quantity} ${tx.unit}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0; padding-bottom:8px; margin-bottom:8px;">
+            <span style="color:#64748b;">Birim Fiyat:</span> <span>${money(tx.price)}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0; padding-bottom:8px; margin-bottom:8px;">
+            <span style="color:#64748b;">Nakliye:</span> <span>${tx.shipping ? money(tx.shipping) : 'Yok'}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #cbd5e1; padding-bottom:8px; margin-bottom:10px;">
+            <span style="color:#64748b;">Ödeme Tipi:</span> <span style="text-transform:capitalize;">${tx.paymentMethod}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:18px; color:#16a34a; font-weight:900;">
+            <span>Toplam Tutar:</span> <span>${money((tx.price * tx.quantity) + Number(tx.shipping))}</span>
+        </div>
+    `;
+    document.getElementById("txDetailModal").classList.add("active");
+}
+
+function closeTxModal() { document.getElementById("txDetailModal").classList.remove("active"); }
+
+function deleteActiveTx() {
+    openConfirm("Satışı Sil", "Bu satışı kalıcı olarak silmek istediğinize emin misiniz?", () => {
+        const sales = getTodaySales();
+        const product = sales[activeTxPIndex];
+        if (product && product.transactions) {
+            product.transactions.splice(activeTxTIndex, 1);
+            saveTodaySales(sales);
+        }
+        closeTxModal();
+        renderSales();
+    });
 }
 
 function updateTotalsDOM() {
@@ -559,20 +785,21 @@ function updateTotalsDOM() {
     
     let sumNakit = 0, sumKart = 0, sumVeresiye = 0, grandTotal = 0;
 
-    allSales.forEach((sale, i) => {
-        const pPrice = Number(sale.price) || 0;
-        const pQty = Number(sale.quantity) || 0;
-        const lineTotal = pPrice * pQty;
-        
-        const lineTotalEl = document.getElementById(`line-total-${i}`);
-        if (lineTotalEl) lineTotalEl.innerText = money(lineTotal);
+    allSales.forEach((product) => {
+        const txs = product.transactions || [];
+        txs.forEach(tx => {
+            const pPrice = Number(tx.price) || 0;
+            const pQty = Number(tx.quantity) || 0;
+            const pShip = Number(tx.shipping) || 0;
+            const lineTotal = (pPrice * pQty) + pShip;
 
-        if (!filterText || (sale.product || "").toLowerCase().includes(filterText)) {
-            grandTotal += lineTotal;
-            if(sale.paymentMethod === 'nakit') sumNakit += lineTotal;
-            else if(sale.paymentMethod === 'kart') sumKart += lineTotal;
-            else if(sale.paymentMethod === 'veresiye') sumVeresiye += lineTotal;
-        }
+            if (!filterText || (product.name || "").toLowerCase().includes(filterText) || (tx.customer || "").toLowerCase().includes(filterText)) {
+                grandTotal += lineTotal;
+                if(tx.paymentMethod === 'nakit') sumNakit += lineTotal;
+                else if(tx.paymentMethod === 'kart') sumKart += lineTotal;
+                else if(tx.paymentMethod === 'veresiye') sumVeresiye += lineTotal;
+            }
+        });
     });
     
     document.getElementById("headerTotal").innerText = money(grandTotal);
@@ -588,75 +815,116 @@ function renderSales() {
     const filterText = document.getElementById("filterInput").value.toLowerCase();
     
     list.innerHTML = "";
-    
     let sumNakit = 0, sumKart = 0, sumVeresiye = 0, grandTotal = 0;
 
     if (allSales.length === 0) {
-        list.innerHTML = `<div class="empty">Henüz ürün eklenmedi.<br>Aşağıdaki butona bas.</div>`;
+        list.innerHTML = `<div class="empty">Henüz ürün eklenmedi.<br>"+ Yeni Ürün Ekle" butonuna basarak başlayın.</div>`;
     } else {
-        allSales.forEach((sale, index) => {
-            if (filterText && !(sale.product || "").toLowerCase().includes(filterText)) return;
+        allSales.forEach((product, pIndex) => {
+            const txs = product.transactions || [];
+            const draft = product.draft || { customer: "", price: "", quantity: 0, unit: "adet", shipping: "", paymentMethod: "nakit" };
             
-            const pPrice = Number(sale.price) || 0;
-            const pQty = Number(sale.quantity) || 0;
-            const lineTotal = pPrice * pQty;
+            const matchesFilter = filterText === "" || 
+                                 (product.name || "").toLowerCase().includes(filterText) || 
+                                 txs.some(tx => (tx.customer || "").toLowerCase().includes(filterText));
             
-            grandTotal += lineTotal;
-            if(sale.paymentMethod === 'nakit') sumNakit += lineTotal;
-            else if(sale.paymentMethod === 'kart') sumKart += lineTotal;
-            else if(sale.paymentMethod === 'veresiye') sumVeresiye += lineTotal;
+            if (!matchesFilter) return;
 
+            txs.forEach(tx => {
+                const lineTotal = (Number(tx.price) * Number(tx.quantity)) + Number(tx.shipping);
+                grandTotal += lineTotal;
+                if(tx.paymentMethod === 'nakit') sumNakit += lineTotal;
+                else if(tx.paymentMethod === 'kart') sumKart += lineTotal;
+                else if(tx.paymentMethod === 'veresiye') sumVeresiye += lineTotal;
+            });
+
+            const draftTotal = (Number(draft.price||0) * Number(draft.quantity||0)) + Number(draft.shipping||0);
             const card = document.createElement("div");
-            card.className = "sale-card";
+            card.className = "product-card";
             
             card.innerHTML = `
-                <button class="delete-btn" onclick="requestDeleteSale(${index})" title="Sil">×</button>
-                
-                <div style="padding-right: 35px;">
+                <div class="prod-header">
+                    <input class="prod-name-input" placeholder="Ürün Adı (Örn: Elma)" value="${escapeHTML(product.name || "")}" 
+                        oninput="updateDraft(${pIndex}, 'name', this.value)">
+                    <button class="delete-btn" onclick="deleteProduct(${pIndex})" title="Ürünü Sil">×</button>
+                </div>
+
+                <div class="draft-area">
                     <div class="sale-row">
-                        <input class="input" placeholder="Ürün adı" value="${escapeHTML(sale.product || "")}" 
-                            oninput="updateSale(${index}, 'product', this.value)">
+                        <input class="input" placeholder="Müşteri Adı (Opsiyonel)" value="${escapeHTML(draft.customer || "")}" 
+                            oninput="updateDraft(${pIndex}, 'customer', this.value)">
                     </div>
                     
                     <div class="sale-row">
                         <div style="flex:1;">
                             <span class="small-label">Birim Fiyat</span>
-                            <input class="input" type="number" inputmode="decimal" placeholder="₺" value="${sale.price || ""}" 
-                                oninput="updateSale(${index}, 'price', this.value)">
+                            <input class="input" type="number" inputmode="decimal" placeholder="₺" value="${draft.price || ""}" 
+                                oninput="updateDraft(${pIndex}, 'price', this.value)">
                         </div>
                         <div style="flex:1;">
                             <span class="small-label">Miktar</span>
                             <div class="unit-qty-group">
-                                <select class="unit-select" onchange="updateSale(${index}, 'unit', this.value)">
-                                    <option value="adet" ${sale.unit !== 'kg' ? 'selected' : ''}>Adet</option>
-                                    <option value="kg" ${sale.unit === 'kg' ? 'selected' : ''}>Kg</option>
+                                <select class="unit-select" onchange="updateDraft(${pIndex}, 'unit', this.value)">
+                                    <option value="adet" ${draft.unit !== 'kg' ? 'selected' : ''}>Adet</option>
+                                    <option value="kg" ${draft.unit === 'kg' ? 'selected' : ''}>Kg</option>
                                 </select>
-                                <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
-                                <input id="qty-input-${index}" class="qty-input" type="number" step="any" min="0" value="${sale.quantity !== undefined ? sale.quantity : 0}" 
-                                    oninput="updateSale(${index}, 'quantity', this.value)">
-                                <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+                                <button class="qty-btn" onclick="changeQty(${pIndex}, -1)">-</button>
+                                <input id="qty-input-${pIndex}" class="qty-input" type="number" step="any" min="0" value="${draft.quantity !== undefined ? draft.quantity : 0}" 
+                                    oninput="updateDraft(${pIndex}, 'quantity', this.value)">
+                                <button class="qty-btn" onclick="changeQty(${pIndex}, 1)">+</button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="sale-row" style="align-items: center; margin-bottom:0;">
+                    <div class="sale-row" style="margin-bottom:12px;">
                         <div class="payment-group">
-                            <button class="pay-btn nakit ${sale.paymentMethod !== 'kart' && sale.paymentMethod !== 'veresiye' ? 'active' : ''}" 
-                                onclick="updateSale(${index}, 'paymentMethod', 'nakit')">💵 Nakit</button>
-                            <button class="pay-btn kart ${sale.paymentMethod === 'kart' ? 'active' : ''}" 
-                                onclick="updateSale(${index}, 'paymentMethod', 'kart')">💳 Kart</button>
-                            <button class="pay-btn veresiye ${sale.paymentMethod === 'veresiye' ? 'active' : ''}" 
-                                onclick="updateSale(${index}, 'paymentMethod', 'veresiye')">📒 Veresiye</button>
+                            <button class="pay-btn nakit ${draft.paymentMethod !== 'kart' && draft.paymentMethod !== 'veresiye' ? 'active' : ''}" 
+                                onclick="updateDraft(${pIndex}, 'paymentMethod', 'nakit')">💵 Nakit</button>
+                            <button class="pay-btn kart ${draft.paymentMethod === 'kart' ? 'active' : ''}" 
+                                onclick="updateDraft(${pIndex}, 'paymentMethod', 'kart')">💳 Kart</button>
+                            <button class="pay-btn veresiye ${draft.paymentMethod === 'veresiye' ? 'active' : ''}" 
+                                onclick="updateDraft(${pIndex}, 'paymentMethod', 'veresiye')">📒 Veresiye</button>
                         </div>
-                        <div class="line-total" id="line-total-${index}">${money(lineTotal)}</div>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed #cbd5e1; padding-top:10px;">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span style="font-size:12px; font-weight:700; color:#64748b;">+ Nakliye:</span>
+                            <input class="input" style="width:75px; padding:8px 10px; font-size:13px;" type="number" placeholder="₺0" value="${draft.shipping || ''}" oninput="updateDraft(${pIndex}, 'shipping', this.value)">
+                        </div>
+                        <div class="line-total" id="draft-total-${pIndex}">${money(draftTotal)}</div>
+                    </div>
+
+                    <button class="btn-save-tx" onclick="saveTransaction(${pIndex})">SATIŞI KAYDET ✓</button>
+                </div>
+
+                ${txs.length > 0 ? `
+                <div class="tx-list-container">
+                    <div style="font-size:11px; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Kaydedilen Satışlar (${txs.length})</div>
+                    <div class="tx-list">
+                        ${txs.map((tx, tIndex) => `
+                            <div class="compact-tx" onclick="openTxDetails(${pIndex}, ${tIndex})">
+                                <div style="display:flex; align-items:center; gap:6px; overflow:hidden;">
+                                    <div style="width:8px; height:8px; border-radius:50%; background:#22c55e; flex-shrink:0;"></div>
+                                    <span style="font-weight:700; font-size:13px; color:#0f172a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                        ${tx.customer ? escapeHTML(tx.customer) : '<span style="font-style:italic; color:#94a3b8;">Müşterisiz</span>'}
+                                    </span>
+                                </div>
+                                <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+                                    <span style="font-size:11px; font-weight:700; color:#64748b;">${tx.quantity} ${tx.unit}</span>
+                                    <span style="font-weight:900; font-size:13px; color:#0f172a;">${money((Number(tx.price)*Number(tx.quantity)) + Number(tx.shipping))}</span>
+                                </div>
+                            </div>
+                        `).join('')}
                     </div>
                 </div>
+                ` : ''}
             `;
             list.appendChild(card);
         });
         
         if (list.innerHTML === "") {
-            list.innerHTML = `<div class="empty">Filtreye uygun ürün bulunamadı.</div>`;
+            list.innerHTML = `<div class="empty">Filtreye uygun kayıt bulunamadı.</div>`;
         }
     }
     
@@ -671,12 +939,20 @@ function renderSales() {
 
 function showHistory() {
     document.getElementById("salesPage").style.display = "none";
+    document.getElementById("salesActionBtns").style.display = "none";
     document.getElementById("historyPage").classList.add("active");
     renderHistory();
 }
 function showSales() {
     document.getElementById("historyPage").classList.remove("active");
     document.getElementById("salesPage").style.display = "block";
+    document.getElementById("salesActionBtns").style.display = "flex";
+}
+
+window.toggleDayDetails = function(day) {
+    const el = document.getElementById("det_" + day);
+    if(el.style.display === "none") el.style.display = "block";
+    else el.style.display = "none";
 }
 
 function renderHistory() {
@@ -687,79 +963,152 @@ function renderHistory() {
     if (days.length === 0) return historyList.innerHTML = `<div class="empty">Kayıtlı gün yok.</div>`;
 
     days.forEach(day => {
-        const sales = data[day];
-        const total = sales.reduce((sum, s) => sum + ((Number(s.price) || 0) * (Number(s.quantity) || 0)), 0);
+        const products = data[day];
+        let dTotal = 0;
+        let txCount = 0;
+        
+        let detailsHtml = '';
+        products.forEach(p => {
+            const txs = p.transactions || [];
+            txs.forEach(tx => {
+                const t = (Number(tx.price)||0)*(Number(tx.quantity)||0) + (Number(tx.shipping)||0);
+                dTotal += t;
+                txCount++;
+                let custInfo = tx.customer ? `<span style="color:#64748b; font-size:11px;">(${escapeHTML(tx.customer)})</span>` : '';
+                let shipInfo = tx.shipping ? `<span style="color:#f59e0b; font-size:11px;"> +₺${tx.shipping} Nak.</span>` : '';
+                detailsHtml += `<div style="border-bottom:1px solid #f1f5f9; padding:8px 0; display:flex; justify-content:space-between; align-items:center;">
+                    <div style="line-height:1.2;"><b>${escapeHTML(p.name||"İsimsiz Ürün")}</b> ${custInfo} <br> <span style="font-size:11px; color:#64748b;">${tx.quantity} ${tx.unit} ${shipInfo}</span></div>
+                    <div style="font-weight:700;">${money(t)}</div>
+                </div>`;
+            });
+        });
+
         const card = document.createElement("div"); card.className = "history-card";
-        card.innerHTML = `<div class="history-date">📅 ${formatDate(day)}</div><div class="history-total">${money(total)}</div><div style="margin-top:8px; color:#64748b; font-size:13px;">${sales.length} işlem</div>`;
+        card.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="history-date">📅 ${formatDate(day)}</div>
+                <button class="btn-small-pdf" onclick="generatePDF('${day}', '${day}')">📄 PDF Raporu</button>
+            </div>
+            <div class="history-total">${money(dTotal)}</div>
+            <div style="margin-top:4px; color:#64748b; font-size:12px; font-weight:600;">Toplam ${txCount} Satış İşlemi</div>
+            <button class="btn-details" onclick="toggleDayDetails('${day}')">Satış Detaylarını Gör ⬇</button>
+            <div id="det_${day}" style="display:none; margin-top:10px; font-size:13px; background:#f8fafc; padding:10px; border-radius:8px;">
+                ${detailsHtml || '<div style="color:#94a3b8;">Kayıt yok.</div>'}
+            </div>
+        `;
         historyList.appendChild(card);
     });
 }
 
-function exportReport(type) {
+function exportRangePDF() {
+    const s = document.getElementById("repStart").value;
+    const e = document.getElementById("repEnd").value;
+    if (!s || !e) return alert("Lütfen hem başlangıç hem bitiş tarihi seçin!");
+    if (s > e) return alert("Başlangıç tarihi bitişten büyük olamaz!");
+    generatePDF(s, e);
+}
+
+function closePdfModal() {
+    document.getElementById("pdfPreviewModal").classList.remove("active");
+    document.getElementById("pdfRenderTarget").innerHTML = "";
+}
+
+function generatePDF(startDay, endDay) {
     const data = getData();
-    const days = Object.keys(data).sort().reverse();
+    let days = Object.keys(data).sort().reverse();
     if (days.length === 0) return alert("Aktarılacak veri yok!");
 
+    if (startDay && endDay) {
+        days = days.filter(d => d >= startDay && d <= endDay);
+        if (days.length === 0) return alert("Seçilen tarih aralığında kayıt bulunamadı!");
+    }
+
+    let htmlContent = `
+        <div id="pdf-container-element">
+            <h2 style="color:#16a34a; border-bottom:2px solid #16a34a; padding-bottom:10px; margin-top:0;">🏢 ${escapeHTML(activeCompany.name)} - Satış Raporu</h2>
+            <div style="color:#64748b; font-size:14px; margin-top:-6px; margin-bottom:20px;">
+                ${startDay && endDay && startDay !== endDay ? `Tarih Aralığı: ${formatDate(startDay)} - ${formatDate(endDay)}` : (startDay ? `Tarih: ${formatDate(startDay)}` : 'Tüm Zamanlar Raporu')}
+            </div>
+    `;
+    
+    let gTotal = 0;
+    days.forEach(day => {
+        let dTotal = 0; 
+        let hasTransactions = false;
+        let dayTableHtml = `<h3 style="margin-top:25px; font-size:16px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">📅 ${formatDate(day)}</h3>
+        <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+            <tr style="background:#f8fafc;">
+                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left;">Ürün</th>
+                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left;">Müşteri</th>
+                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left;">Fiyat</th>
+                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left;">Miktar</th>
+                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left;">Nakliye</th>
+                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left;">Ödeme</th>
+                <th style="border:1px solid #cbd5e1; padding:8px; text-align:left;">Toplam</th>
+            </tr>`;
+        
+        (data[day] || []).forEach(p => {
+            (p.transactions || []).forEach(tx => {
+                hasTransactions = true;
+                const pShip = Number(tx.shipping) || 0;
+                const t = (Number(tx.price)||0)*(Number(tx.quantity)||0) + pShip; 
+                dTotal += t;
+                const pay = tx.paymentMethod === 'kart' ? 'Kart' : (tx.paymentMethod === 'veresiye' ? 'Veresiye' : 'Nakit');
+                const unit = tx.unit === 'kg' ? 'Kg' : 'Adet';
+                dayTableHtml += `<tr>
+                    <td style="border:1px solid #cbd5e1; padding:8px;">${escapeHTML(p.name||"-")}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px;">${escapeHTML(tx.customer||"-")}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px;">${money(tx.price)}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px;">${tx.quantity} ${unit}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px;">${pShip > 0 ? money(pShip) : "-"}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px;">${pay}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px;"><b>${money(t)}</b></td>
+                </tr>`;
+            });
+        });
+        dayTableHtml += `</table><div style="font-weight:bold; font-size:14px; margin-top:8px; color:#16a34a; text-align:right;">Günlük Toplam: ${money(dTotal)}</div>`; 
+        
+        if(hasTransactions) { htmlContent += dayTableHtml; gTotal += dTotal; }
+    });
+    
+    htmlContent += `<div style="font-size:16px; font-weight:bold; color:#16a34a; background:#f0fdf4; padding:12px 16px; border-radius:10px; margin-top:25px; border:1px solid #bbf7d0; text-align:right;">Genel Rapor Toplamı: ${money(gTotal)}</div></div>`;
+
+    document.getElementById("pdfRenderTarget").innerHTML = htmlContent;
+    document.getElementById("pdfPreviewModal").classList.add("active");
+}
+
+function triggerSystemPrint() {
+    window.print();
+}
+
+function exportReport(type, startDay = null, endDay = null) {
     if (type === 'excel') {
-        let csv = "Tarih;Urun Adi;Birim Fiyat;Birim;Adet/Kg;Odeme Tipi;Toplam Tutar\n";
+        const data = getData();
+        let days = Object.keys(data).sort().reverse();
+        if (days.length === 0) return alert("Aktarılacak veri yok!");
+
+        let csv = "Tarih;Urun;Musteri;Birim Fiyat;Birim;Adet/Kg;Nakliye;Odeme Tipi;Toplam Tutar\n";
         days.forEach(day => {
-            data[day].forEach(s => {
-                const pName = (s.product || "Ürün").replace(/;/g, ",");
-                const pPrice = s.price || 0;
-                const pUnit = s.unit === 'kg' ? 'Kg' : 'Adet';
-                const pQty = s.quantity || 0;
-                const pPay = s.paymentMethod === 'kart' ? 'Kart' : (s.paymentMethod === 'veresiye' ? 'Veresiye' : 'Nakit');
-                const pTotal = pPrice * pQty;
-                csv += `${formatDate(day)};${pName};${pPrice};${pUnit};${pQty};${pPay};${pTotal}\n`;
+            (data[day] || []).forEach(p => {
+                (p.transactions || []).forEach(tx => {
+                    const pDate = formatDate(day);
+                    const pName = (p.name || "Ürün").replace(/;/g, ",");
+                    const pCust = (tx.customer || "").replace(/;/g, ",");
+                    const pPrice = tx.price || 0;
+                    const pUnit = tx.unit === 'kg' ? 'Kg' : 'Adet';
+                    const pQty = tx.quantity || 0;
+                    const pShip = tx.shipping || 0;
+                    const pPay = tx.paymentMethod === 'kart' ? 'Kart' : (tx.paymentMethod === 'veresiye' ? 'Veresiye' : 'Nakit');
+                    const pTotal = (pPrice * pQty) + Number(pShip);
+                    csv += `${pDate};${pName};${pCust};${pPrice};${pUnit};${pQty};${pShip};${pPay};${pTotal}\n`;
+                });
             });
         });
         const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
         const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
         a.download = `${activeCompany.name}_satis_raporu.csv`;
         document.body.appendChild(a); a.click(); document.body.removeChild(a);
-        
-        setTimeout(() => alert("Excel dosyası başarıyla indirildi/kaydedildi!"), 500);
-
-    } else if (type === 'pdf') {
-        let pw = window.open('', '_blank');
-        let html = `<html><head><title>${activeCompany.name} - Rapor</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            body{font-family:sans-serif;padding:20px;color:#0f172a; margin-top:70px;}
-            h2{color:#16a34a;border-bottom:2px solid #16a34a;padding-bottom:5px;}
-            table{width:100%;border-collapse:collapse;margin-top:15px;}
-            th,td{border:1px solid #cbd5e1;padding:8px;font-size:13px;}
-            th{background:#f8fafc;}
-            .tot{font-weight:bold;margin-top:15px;font-size:16px;}
-            
-            @media print { .no-print { display: none !important; } body { margin-top:0; } }
-            
-            .top-bar { position: fixed; top: 0; left: 0; width: 100%; background: #0f172a; padding: 15px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; box-sizing: border-box; }
-            .top-btn { padding: 10px 15px; font-weight: bold; border-radius: 8px; border: none; cursor: pointer; font-size:14px; }
-            .btn-close { background: #ef4444; color: white; }
-            .btn-print { background: #22c55e; color: white; }
-        </style></head><body>
-        
-        <div class="no-print top-bar">
-            <button class="top-btn btn-close" onclick="window.close()">❌ Kapat / Çık</button>
-            <button class="top-btn btn-print" onclick="window.print()">🖨️ Yazdır / Kaydet</button>
-        </div>
-
-        <h2>🏢 ${activeCompany.name} - Satış Raporu</h2>`;
-        
-        let gTotal = 0;
-        days.forEach(day => {
-            let dTotal = 0; html += `<h3>📅 ${formatDate(day)}</h3><table><tr><th>Ürün</th><th>Fiyat</th><th>Birim</th><th>Miktar</th><th>Ödeme</th><th>Toplam</th></tr>`;
-            data[day].forEach(s => {
-                const t = (Number(s.price)||0)*(Number(s.quantity)||0); dTotal += t;
-                const pay = s.paymentMethod === 'kart' ? 'Kart' : (s.paymentMethod === 'veresiye' ? 'Veresiye' : 'Nakit');
-                const unit = s.unit === 'kg' ? 'Kg' : 'Adet';
-                html += `<tr><td>${escapeHTML(s.product||"-")}</td><td>${money(s.price)}</td><td>${unit}</td><td>${s.quantity}</td><td>${pay}</td><td>${money(t)}</td></tr>`;
-            });
-            html += `</table><div class="tot">Günlük Toplam: ${money(dTotal)}</div><hr>`; gTotal += dTotal;
-        });
-        html += `<div class="tot" style="font-size:20px; color:#16a34a;">Genel Toplam Ciro: ${money(gTotal)}</div></body></html>`;
-        pw.document.write(html); pw.document.close(); pw.focus();
+        setTimeout(() => alert("Excel dosyası başarıyla indirildi!"), 500);
     }
 }
 
