@@ -118,7 +118,33 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ar
     -webkit-text-fill-color: transparent;
     animation: brandInnerGlow 3s ease-in-out infinite;
 }
-.brand-subtitle { font-size: 14px; color: var(--login-subtext); margin-bottom: 20px; }
+.brand-subtitle { font-size: 14px; color: var(--login-subtext); margin-bottom: 10px; }
+
+.sync-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+    background: rgba(148, 163, 184, 0.15);
+    color: var(--login-subtext);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+}
+.sync-pill.ok {
+    background: rgba(34, 197, 94, 0.14);
+    color: #16a34a;
+    border-color: rgba(34, 197, 94, 0.4);
+}
+body.dark-mode .sync-pill.ok { color: #4ade80; }
+.sync-pill.err {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.4);
+}
+.sync-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
 
 .search-wrapper { position: relative; margin-bottom: 15px; }
 .search-icon { position: absolute; left: 14px; top: 15px; font-size: 16px; color: #22c55e; font-weight:bold; }
@@ -336,6 +362,7 @@ body.light-mode #loginPage .glass-input { background: rgba(0, 0, 0, 0.04); borde
     <div class="glass-panel active" id="panelList">
         <h1 class="brand-title">CepkasaX</h1>
         <div class="brand-subtitle">Şirket Seçimi</div>
+        <div id="syncStatusBadge" class="sync-pill"><span class="sync-dot"></span><span id="syncStatusText">Buluta bağlanıyor...</span></div>
         <div class="search-wrapper">
             <span class="search-icon">🔍</span>
             <input type="text" id="searchInput" class="glass-input with-icon" placeholder="Şirket ara..." oninput="renderCompanyList()" autocomplete="off">
@@ -483,12 +510,20 @@ const FIREBASE_CONFIG = {
 let db = null;
 let activeSalesRef = null;
 
+function setSyncStatus(state, text) {
+    const badge = document.getElementById("syncStatusBadge");
+    const label = document.getElementById("syncStatusText");
+    if (!badge || !label) return;
+    badge.className = "sync-pill" + (state === "ok" ? " ok" : (state === "err" ? " err" : ""));
+    label.innerText = text;
+}
+
 if (USE_FIREBASE) {
     try { 
         firebase.initializeApp(FIREBASE_CONFIG); 
         db = firebase.database(); 
     } catch (error) { 
-        console.warn("Firebase bağlantı hatası:", error); 
+        setSyncStatus("err", "Bulut başlatılamadı");
     }
 }
 
@@ -522,40 +557,63 @@ let companies = [];
 let activeCompany = null; 
 let STORAGE_KEY = ""; 
 
+function ensureAuth() {
+    if (!USE_FIREBASE || !db) return Promise.resolve();
+    if (firebase.auth().currentUser) return Promise.resolve(firebase.auth().currentUser);
+    return firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
+        .catch(() => {})
+        .then(() => firebase.auth().signInAnonymously());
+}
+
 function startCompanyListener() {
     if (!USE_FIREBASE || !db) return;
     db.ref('companies').on('value', (snapshot) => {
+        setSyncStatus("ok", "Bulut Bağlı");
         const val = snapshot.val();
-        if (!val) {
-            if (companies.length > 0) {
-                db.ref('companies').set(companies).catch(e => console.warn(e));
+        const remoteList = val ? (Array.isArray(val) ? val : Object.values(val)).filter(Boolean) : [];
+        const localList = (JSON.parse(localStorage.getItem("app_companies")) || []).filter(Boolean);
+
+        // Yerel hafızada olup bulutta henüz olmayan şirketleri buluta aktar
+        const mergedMap = {};
+        remoteList.forEach(c => { if (c && c.id) mergedMap[c.id] = c; });
+
+        localList.forEach(localComp => {
+            if (localComp && localComp.id && !mergedMap[localComp.id]) {
+                mergedMap[localComp.id] = localComp;
+                db.ref('companies/' + localComp.id).set(localComp).catch(() => {});
             }
-            return;
-        }
-        companies = (Array.isArray(val) ? val : Object.values(val)).filter(Boolean);
+        });
+
+        companies = Object.values(mergedMap);
         localStorage.setItem("app_companies", JSON.stringify(companies));
         renderCompanyList();
+    }, (err) => {
+        setSyncStatus("err", "Bulut İzni Kapalı (" + (err.code || "Hata") + ")");
     });
 }
 
 function loadCompanies() {
-    const localData = JSON.parse(localStorage.getItem("app_companies")) || [];
+    const localData = (JSON.parse(localStorage.getItem("app_companies")) || []).filter(Boolean);
     if (localData.length > 0) { companies = localData; renderCompanyList(); }
     if (USE_FIREBASE && db) {
-        firebase.auth().signInAnonymously()
+        ensureAuth()
             .then(() => {
                 startCompanyListener();
             })
             .catch((error) => {
-                console.warn("Anonim oturum hatası:", error);
+                setSyncStatus("err", "Anonim Giriş Kapalı (" + (error.code || "Auth") + ")");
                 startCompanyListener();
             });
     }
 }
 
-function saveCompanies() { 
+function saveCompanyItem(company) {
     localStorage.setItem("app_companies", JSON.stringify(companies));
-    if (USE_FIREBASE && db) db.ref('companies').set(companies).catch(e => console.warn(e));
+    if (USE_FIREBASE && db && company && company.id) {
+        ensureAuth().then(() => {
+            db.ref('companies/' + company.id).set(company).catch(e => console.warn(e));
+        });
+    }
 }
 
 function showPanel(panelId) {
@@ -590,8 +648,11 @@ function createNewCompany() {
     const exists = companies.find(c => c.name.toLowerCase() === name.toLowerCase());
     if (exists) return alert("Bu isimde bir şirket zaten mevcut! Lütfen farklı bir ad seçin.");
 
-    companies.push({ id: "comp_" + Date.now(), name: name, pin: pin, lastNameUpdate: 0 });
-    saveCompanies(); renderCompanyList(); showPanel("panelList");
+    const newComp = { id: "comp_" + Date.now(), name: name, pin: pin, lastNameUpdate: 0 };
+    companies.push(newComp);
+    saveCompanyItem(newComp);
+    renderCompanyList();
+    showPanel("panelList");
 }
 
 function verifyLogin() {
@@ -657,7 +718,7 @@ function saveSettings() {
 
     const idx = companies.findIndex(c => c.id === activeCompany.id);
     if(idx > -1) companies[idx] = activeCompany;
-    saveCompanies();
+    saveCompanyItem(activeCompany);
     setTheme(selectedTheme);
     document.getElementById("companyTitle").innerText = `🏢 ${activeCompany.name}`;
     closeSettings();
@@ -669,9 +730,12 @@ function requestDeleteActiveCompany() {
     openConfirm("Şirketi Tamamen Sil", "DİKKAT! Bu şirketi ve tüm satış verilerini kalıcı olarak silmek üzeresiniz. Onaylamak için şifrenizi girin.", () => {
         const deletedId = activeCompany.id;
         companies = companies.filter(c => c.id !== deletedId);
-        saveCompanies();
+        localStorage.setItem("app_companies", JSON.stringify(companies));
         if (USE_FIREBASE && db) {
-            db.ref('sales/' + deletedId).remove().catch(e => console.warn(e));
+            ensureAuth().then(() => {
+                db.ref('companies/' + deletedId).remove().catch(() => {});
+                db.ref('sales/' + deletedId).remove().catch(() => {});
+            });
         }
         localStorage.removeItem("data_" + deletedId);
         logout();
@@ -735,11 +799,7 @@ function startApp(company) {
             });
         };
 
-        if (firebase.auth().currentUser) {
-            attachSalesListener();
-        } else {
-            firebase.auth().signInAnonymously().then(attachSalesListener).catch(attachSalesListener);
-        }
+        ensureAuth().then(attachSalesListener).catch(attachSalesListener);
     }
 }
 
@@ -798,7 +858,11 @@ function saveTodaySales(salesData) {
     const today = getTodayKey(); 
     data[today] = salesData;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    if (USE_FIREBASE && db) db.ref('sales/' + activeCompany.id + '/' + today).set(salesData);
+    if (USE_FIREBASE && db && activeCompany) {
+        ensureAuth().then(() => {
+            db.ref('sales/' + activeCompany.id + '/' + today).set(salesData);
+        });
+    }
 }
 
 function getTodaySales() { const data = getData(); return data[getTodayKey()] || []; }
