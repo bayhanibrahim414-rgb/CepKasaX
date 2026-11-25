@@ -4,12 +4,44 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CepKasaX">
 
 <title>CepkasaX</title>
 <meta name="description" content="CepkasaX - İşletmeler için ücretsiz, anlık senkronize satış, ciro ve ürün takip uygulaması.">
 
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 150'><rect width='500' height='150' rx='35' fill='%230f172a'/><text x='250' y='98' font-size='72' font-weight='900' fill='%2322c55e' text-anchor='middle' font-family='Arial, sans-serif' letter-spacing='1'>CepKasaX</text></svg>">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 150'><rect width='500' height='150' rx='35' fill='%230f172a'/><text x='250' y='98' font-size='72' font-weight='900' fill='%2322c55e' text-anchor='middle' font-family='Arial, sans-serif' letter-spacing='1'>CepKasaX</text></svg>">
+<link id="appFavicon" rel="icon" type="image/png" href="">
+<link id="appleTouchIcon" rel="apple-touch-icon" sizes="180x180" href="">
+
+<script>
+(function() {
+    var canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    var ctx = canvas.getContext('2d');
+
+    // Arka plan (#0f172a)
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(0, 0, 512, 512);
+
+    // Üstte yan yana CK (Beyaz)
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '900 155px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('CK', 256, 175);
+
+    // Altta daha büyük ve yeşil X (#22c55e)
+    ctx.fillStyle = '#22c55e';
+    ctx.font = '900 225px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif';
+    ctx.fillText('X', 256, 355);
+
+    var pngUrl = canvas.toDataURL('image/png');
+    document.getElementById('appleTouchIcon').href = pngUrl;
+    document.getElementById('appFavicon').href = pngUrl;
+})();
+</script>
 
 <!-- FIREBASE SDK -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
